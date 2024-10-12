@@ -64,8 +64,9 @@
   }
 </script>
 
-<div class="container mx-auto py-0 px-1">
-  <Table>
+<!--<div class="container mx-auto py-0 px-1">-->
+<div class="mx-auto px-1">
+    <Table>
     <TableHeader>
       <TableRow>
         <TableHead>

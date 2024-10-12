@@ -33,7 +33,7 @@
 		// Clean up the observer when the component is destroyed
 		return () => observer.disconnect()
 	})
-  
+// pb-[calc(var(--safe-area-inset-top))]  
 </script>
 
 <header class="bg-background header-height fixed top-0 left-0 right-0 z-30 border-b">

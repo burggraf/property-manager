@@ -116,7 +116,7 @@
   .header-height {
     /*height: var(--header-height);*//*calc(3.5rem + var(--safe-area-inset-top));*/
     height: 3.5rem;
-    margin-top: var(--safe-area-inset-top);
+    /*margin-top: var(--safe-area-inset-top);*/
     padding-top: 8px;
   }
   .footer-height {

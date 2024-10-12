@@ -35,7 +35,8 @@
 	]);
 
 </script>
-<div class="flex flex-col min-h-screen pt-[var(--header-height)]">
+<!--<div class="flex flex-col min-h-screen pt-[var(--header-height)]">-->
+<div class="pt-3" style="margin-top: calc(env(header-height));">
 
 <Navbar>
     <div slot="title">{$t('contacts.title')}</div>
@@ -48,7 +49,7 @@
 	</div>
 </Navbar>
 <Content>
-	<div class="">
+	<div class="bg-yellow-100">
 		{#if data.error}
 			<p class="error">{data.error}</p>
 		{:else if data.contacts.length === 0}
