@@ -46,7 +46,6 @@
 
 </script>
 <!--<div class="flex flex-col min-h-screen pt-[var(--header-height)]">-->
-<div class="pt-3" style="margin-top: calc(env(header-height));">
 
 <Navbar>
     <div slot="title">{$t('contacts.title')}</div>
@@ -70,4 +69,3 @@
 	<!--</div>-->
 </Content>
 <StatusBar />
-</div>
