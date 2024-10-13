@@ -4,16 +4,16 @@
 	import { t } from '$lib/i18n'
 
 	import MainLayout from '$lib/components/MainLayout.svelte'
+	import Navbar from '$lib/components/Navbar.svelte';
+	import Content from '$lib/components/Content.svelte';
+	import StatusBar from '$lib/components/StatusBar.svelte';
 	// Function to handle language change
 </script>
-
-<MainLayout>
+<Navbar>
 	<div slot="title">Dashboard</div>
-
-	<div slot="top-left"></div>
-	<div slot="top-right"></div>
-
-	<div slot="content" class="lg:col-span-3">
+</Navbar>
+<Content>
+	<div class="lg:col-span-3">
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>{$t('dashboard.title')}</Card.Title>
@@ -38,4 +38,4 @@
   </select>
 </div>
 -->
-</MainLayout>
+</Content>
