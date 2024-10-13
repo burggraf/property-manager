@@ -8,11 +8,14 @@
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
 	import { saveContact, deleteContact } from '$lib/contactService'
-	import { user } from '$lib/backend'
 	let { data } = $props()
 	let contactDetail = $state(data.contact || { firstname: '', lastname: '', email: '', notes: '' })
 	let notesTextarea: HTMLTextAreaElement
 	let isNewContact = $derived($page.url.pathname.split('/').pop() === 'new')
+    import Navbar from '$lib/components/Navbar.svelte';
+    import Content from '$lib/components/Content.svelte';
+    import StatusBar from '$lib/components/StatusBar.svelte';
+	import { user, getSession } from '$lib/backend';
 
 	function isValidEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -72,14 +75,20 @@
 
 	onMount(() => {
 		autoGrow()
+		getSession().then(({ data }) => {
+        if (data.session) {
+          user.set(data.session.user);
+          // Fetch user's language preference here
+        }
+      });
+
 	})
 
 	$effect(() => {
 		autoGrow()
 	})
 </script>
-
-<MainLayout>
+<Navbar>
 	<div slot="top-right" class="flex space-x-2">
 		<button
 			onclick={handleBackToContacts}
@@ -99,7 +108,9 @@
 	<div slot="title">
 		{isNewContact ? $t('contactDetail.createNew') : $t('contactDetail.editContact')}
 	</div>
-	<div slot="content">
+</Navbar>
+<Content>
+	<div class="pt-4">
 		<div class="max-w-2xl mx-auto mt-8 relative pb-16">
 			<form class="space-y-4" onsubmit={handleSubmit}>
 				<div class="w-full p-2 border rounded bg-background">
@@ -183,4 +194,4 @@
 			</form>
 		</div>
 	</div>
-</MainLayout>
+</Content>
