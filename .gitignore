@@ -23,3 +23,8 @@ pb_data/
 ios/
 android/
 run-on-iphone.sh
+
+# Rust / Tauri
+src-tauri/target/
+# Tauri
+src-tauri/Cargo.lock
