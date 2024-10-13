@@ -13,8 +13,18 @@
     import Navbar from '$lib/components/Navbar.svelte';
     import Content from '$lib/components/Content.svelte';
     import StatusBar from '$lib/components/StatusBar.svelte';
-    
+	import { user, getSession } from '$lib/backend';
+	import { onMount } from 'svelte'
+
 	let { data } = $props<{ data: PageData }>();
+    onMount(() => {
+      getSession().then(({ data }) => {
+        if (data.session) {
+          user.set(data.session.user);
+          // Fetch user's language preference here
+        }
+      });
+    });
 
 	function handleNewContact() {
 		goto('/dashboard/contacts/new');
@@ -49,7 +59,7 @@
 	</div>
 </Navbar>
 <Content>
-	<div class="bg-yellow-100">
+	<!--<div class="bg-green-100">-->
 		{#if data.error}
 			<p class="error">{data.error}</p>
 		{:else if data.contacts.length === 0}
@@ -57,7 +67,7 @@
 		{:else}
 			<ContactsList contacts={data.contacts} />
 		{/if}
-	</div>
+	<!--</div>-->
 </Content>
 <StatusBar />
 </div>

@@ -9,8 +9,6 @@
 	import Actions from '$lib/components/Actions.svelte'
 	import { 
 		UserPlus,
-		Menu,
-		Search,
 		Info
 	} from 'lucide-svelte';
 	let { data } = $props<{ data: PageData }>();

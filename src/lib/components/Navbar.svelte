@@ -36,7 +36,7 @@
 // pb-[calc(var(--safe-area-inset-top))]  
 </script>
 
-<header class="bg-background header-height fixed top-0 left-0 right-0 z-30 border-b">
+<header class="safe-area-top bg-background header-height fixed top-0 left-0 right-0 z-30 border-b">
     <div class="container mx-auto px-4 flex items-center justify-between">
         <div class="flex items-center space-x-4">
             <Sheet.Root bind:open={sheetOpen}>

@@ -59,7 +59,7 @@
   <div class="flex flex-col h-screen">
 
     <header
-      class="bg-background fixed top-0 left-0 right-0 z-30 flex items-center justify-between gap-4 border-b px-4"
+      class="safe-area-top bg-background fixed top-0 left-0 right-0 z-30 flex items-center justify-between gap-4 border-b px-4"
     >
       <!--<div class="flex items-center gap-0">-->
       <div class="">

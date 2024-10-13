@@ -39,7 +39,7 @@
 			setTimeout(() => {
 				showToast($t('contactDetail.saveSuccess'), { type: 'success' })
 			}, 100)
-			goto('/dashboard/contacts')
+			goto('/dashboard/contacts2')
 		}
 	}
 
@@ -55,7 +55,7 @@
 	}
 
 	function handleBackToContacts() {
-		goto('/dashboard/contacts')
+		goto('/dashboard/contacts2')
 	}
 
 	function handleSubmit(event: Event) {
