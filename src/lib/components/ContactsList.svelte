@@ -112,7 +112,7 @@
       </TableHeader>
     </Table>
   </div>
-  <div class="table-body pt-6 bg-green-100">
+  <div class="table-body pt-6">
     <Table>
       <TableBody>
         {#each contacts as contact (contact.id)}
