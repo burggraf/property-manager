@@ -59,7 +59,7 @@
   <div class="flex flex-col h-screen">
 
     <header
-      class="safe-area-top bg-background fixed top-0 left-0 right-0 z-30 flex items-center justify-between gap-4 border-b px-4"
+      class="bg-background fixed top-0 left-0 right-0 z-30 flex items-center justify-between gap-4 border-b px-4"
     >
       <!--<div class="flex items-center gap-0">-->
       <div class="">
@@ -89,7 +89,7 @@
 
     <!-- adjust padding here if necessary -->
     <!--<main class="flex-1 overflow-y-auto bg-muted/40 p-4 md:p-6 lg:p-8">-->
-    <main class="flex-grow overflow-y-auto bg-muted/40 pt-12 pb-12 m-0 md:m-6 lg:m-8">
+    <main class="flex-grow overflow-y-auto pt-0 mb-0 pb-40 m-0 md:m-6 lg:m-8">
         <slot name="content" />
     </main>
 
