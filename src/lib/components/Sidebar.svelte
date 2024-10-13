@@ -16,7 +16,7 @@
 			category: $t('sidebar.people'),
 			icon: Users,
 			items: [
-				{ label: $t('sidebar.contacts'), href: "/dashboard/contacts2" },
+				{ label: $t('sidebar.contacts'), href: "/dashboard/contacts" },
 				{ label: $t('sidebar.myAccount'), href: "/dashboard/account" }
 			]
 		},

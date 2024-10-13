@@ -5,13 +5,26 @@
 	import { Button } from '$lib/components/ui/button'
 	import type { PageData } from './$types'
 	import { t } from '$lib/i18n'
-	import MainLayout from '$lib/components/MainLayout.svelte'
 	import Actions from '$lib/components/Actions.svelte'
 	import { 
 		UserPlus,
 		Info
 	} from 'lucide-svelte';
+    import Navbar from '$lib/components/Navbar.svelte';
+    import Content from '$lib/components/Content.svelte';
+    import StatusBar from '$lib/components/StatusBar.svelte';
+	import { user, getSession } from '$lib/backend';
+	import { onMount } from 'svelte'
+
 	let { data } = $props<{ data: PageData }>();
+    onMount(() => {
+      getSession().then(({ data }) => {
+        if (data.session) {
+          user.set(data.session.user);
+          // Fetch user's language preference here
+        }
+      });
+    });
 
 	function handleNewContact() {
 		goto('/dashboard/contacts/new');
@@ -32,10 +45,11 @@
 	]);
 
 </script>
+<!--<div class="flex flex-col min-h-screen pt-[var(--header-height)]">-->
+<div class="pt-3" style="margin-top: calc(env(header-height));">
 
-<MainLayout>
-	<div slot="title">{$t('contacts.title')}</div>
-
+<Navbar>
+    <div slot="title">{$t('contacts.title')}</div>
 	<div slot="top-right" class="flex items-center space-x-2">
 		<Button onclick={handleNewContact} variant="ghost" size="icon">
 			<UserPlus class="h-5 w-5" />
@@ -43,8 +57,9 @@
 		</Button>
 		<Actions {actions} />
 	</div>
-
-	<div slot="content">
+</Navbar>
+<Content>
+	<!--<div class="bg-green-100">-->
 		{#if data.error}
 			<p class="error">{data.error}</p>
 		{:else if data.contacts.length === 0}
@@ -52,5 +67,7 @@
 		{:else}
 			<ContactsList contacts={data.contacts} />
 		{/if}
-	</div>
-</MainLayout>
+	<!--</div>-->
+</Content>
+<StatusBar />
+</div>
