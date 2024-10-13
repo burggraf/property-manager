@@ -58,14 +58,12 @@
 	</div>
 </Navbar>
 <Content>
-	<!--<div class="bg-green-100">-->
-		{#if data.error}
-			<p class="error">{data.error}</p>
-		{:else if data.contacts.length === 0}
-			<p>{$t('contacts.noContacts')}</p>
-		{:else}
-			<ContactsList contacts={data.contacts} />
-		{/if}
-	<!--</div>-->
+	{#if data.error}
+		<p class="error">{data.error}</p>
+	{:else if data.contacts.length === 0}
+		<p>{$t('contacts.noContacts')}</p>
+	{:else}
+		<ContactsList contacts={data.contacts} />
+	{/if}
 </Content>
 <StatusBar />
