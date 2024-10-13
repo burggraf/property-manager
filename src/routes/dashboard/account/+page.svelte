@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { user } from '$lib/backend'
+	import { user, getSession } from '$lib/backend';
 	import { Button } from '$lib/components/ui/button/index.js'
 	import { Input } from '$lib/components/ui/input/index.js'
 	import { Label } from '$lib/components/ui/label/index.js'
@@ -10,6 +10,10 @@
 	import { updateUser } from '$lib/backend';
 	import { showToast } from '$lib/utils/toast'
 	import { Textarea } from '$lib/components/ui/textarea/index.js'
+    import Navbar from '$lib/components/Navbar.svelte';
+    import Content from '$lib/components/Content.svelte';
+    import StatusBar from '$lib/components/StatusBar.svelte';
+	import { Check, X, Trash2 } from 'lucide-svelte'
 
 	let firstName = $state('')
 	let lastName = $state('')
@@ -63,9 +67,20 @@
 	}
 </script>
 
-<MainLayout>
+<Navbar>
+	<div slot="top-right" class="flex space-x-2">
+		<button
+			onclick={updateProfile}
+			class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
+			aria-label={$t('common.save')}
+		>
+			<Check class="w-6 h-6" />
+		</button>
+	</div>
 	<div slot="title">{$t('account.title')}</div>
-	<div slot="content">
+</Navbar>
+<Content>
+	<div>
 		{#if $user}
 		<Card.Root class="max-w-md mx-auto mt-8">
 			<Card.Header>
@@ -73,7 +88,7 @@
 				<Card.Description>{$t('account.personalInfo')}</Card.Description>
 			</Card.Header>
 			<Card.Content>
-				<form on:submit|preventDefault={updateProfile} class="space-y-4">
+<!--				<form on:submit|preventDefault={updateProfile} class="space-y-4">-->
 					<div>
 						<Label for="email">{$t('account.email')}</Label>
 						<Input id="email" type="email" value={email} disabled />
@@ -90,14 +105,16 @@
 						<Label for="bio">{$t('account.bio')}</Label>
 						<Textarea id="bio" bind:value={bio} rows="3" class="resize-y" />
 					</div>
+					<!--
 					<Button type="submit" disabled={loading}>
 						{loading ? $t('account.updating') : $t('account.updateProfile')}
 					</Button>
-				</form>
+					-->
+				<!--</form>-->
 			</Card.Content>
 			</Card.Root>
 		{:else}
 			<p>{$t('common.notLoggedIn')}</p>
 		{/if}
 	</div>
-</MainLayout>
+</Content>
