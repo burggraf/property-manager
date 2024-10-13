@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import MainLayout from '$lib/components/MainLayout.svelte'
 	import { t } from '$lib/i18n'
 	import { cn } from '$lib/utils'
 	import { Check, X, Trash2 } from 'lucide-svelte'

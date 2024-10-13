@@ -6,7 +6,6 @@
 	import { Label } from '$lib/components/ui/label/index.js'
 	import * as Card from '$lib/components/ui/card/index.js'
 	import { t } from '$lib/i18n'
-	import MainLayout from '$lib/components/MainLayout.svelte'
 	import { updateUser } from '$lib/backend';
 	import { showToast } from '$lib/utils/toast'
 	import { Textarea } from '$lib/components/ui/textarea/index.js'
