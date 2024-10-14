@@ -79,7 +79,7 @@
 	<div slot="title">{$t('account.title')}</div>
 </Navbar>
 <Content>
-	<div>
+	<div class="pt-4 pb-4">
 		{#if $user}
 		<Card.Root class="max-w-md mx-auto mt-8">
 			<Card.Header>
