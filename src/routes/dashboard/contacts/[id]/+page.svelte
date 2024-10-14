@@ -109,7 +109,7 @@
 	</div>
 </Navbar>
 <Content>
-	<div class="pt-4">
+	<div class="pt-4 pb-4">
 		<div class="max-w-2xl mx-auto mt-8 relative pb-16">
 			<form class="space-y-4" onsubmit={handleSubmit}>
 				<div class="w-full p-2 border rounded bg-background">
@@ -194,3 +194,4 @@
 		</div>
 	</div>
 </Content>
+<StatusBar />

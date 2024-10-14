@@ -12,7 +12,7 @@
 	<div slot="title">Dashboard</div>
 </Navbar>
 <Content>
-	<div class="lg:col-span-3">
+	<div class="pt-8 pb-4 lg:col-span-3">
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>{$t('dashboard.title')}</Card.Title>
