@@ -8,6 +8,7 @@
 	// import { page } from '$app/stores';
 	// import LanguageSelector from '$lib/components/LanguageSelector.svelte';
 	import { ModeWatcher } from 'mode-watcher'
+  import { user, getSession } from '$lib/backend';
 	import { onMount } from 'svelte'
 	// let notificationSupported = $state(false);
 
@@ -20,6 +21,14 @@
         navigationBarContent: 'light',
       },
     })
+    onMount(() => {
+      getSession().then(({ data }) => {
+        if (data.session) {
+          user.set(data.session.user);
+          // Fetch user's language preference here
+        }
+      });
+    });
 
 
 	/*

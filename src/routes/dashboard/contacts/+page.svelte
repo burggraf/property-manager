@@ -17,14 +17,6 @@
 	import { onMount } from 'svelte'
 
 	let { data } = $props<{ data: PageData }>();
-    onMount(() => {
-      getSession().then(({ data }) => {
-        if (data.session) {
-          user.set(data.session.user);
-          // Fetch user's language preference here
-        }
-      });
-    });
 
 	function handleNewContact() {
 		goto('/dashboard/contacts/new');

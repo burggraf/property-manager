@@ -72,17 +72,6 @@
 		}
 	}
 
-	onMount(() => {
-		autoGrow()
-		getSession().then(({ data }) => {
-        if (data.session) {
-          user.set(data.session.user);
-          // Fetch user's language preference here
-        }
-      });
-
-	})
-
 	$effect(() => {
 		autoGrow()
 	})
