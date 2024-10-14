@@ -2,6 +2,12 @@
   import { page } from '$app/stores';
   import GenericList from '$lib/components/GenericList.svelte';
   import { Button } from "$lib/components/ui/button";
+	import Navbar from '$lib/components/Navbar.svelte';
+	import Content from '$lib/components/Content.svelte';
+	import StatusBar from '$lib/components/StatusBar.svelte';
+	import { 
+    BookPlus
+  } from 'lucide-svelte';
 
   interface Book {
     id: number;
@@ -29,15 +35,24 @@
     books = [...books, newBook];
   }
 </script>
+<Navbar>
+	<div slot="title">Book List</div>
+	<div slot="top-right" class="flex items-center space-x-2">
+		<Button onclick={addRandomBook} variant="ghost" size="icon">
+			<BookPlus class="h-5 w-5" />
+			<span class="sr-only">New Book</span>
+		</Button>
+	</div>
 
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-4">{$page.data.title}</h1>
+</Navbar>
+<Content>
+<!--<div class="mx-auto pt-4 pb-4">-->
   
-  <Button on:click={addRandomBook} class="mb-4">Add Random Book</Button>
-
   <GenericList
     data={books}
     headers={headers}
     onRowClick={handleBookClick}
   />
-</div>
+<!--</div>-->
+</Content>
+<StatusBar />
