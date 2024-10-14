@@ -12,6 +12,7 @@
 		"ios": "npm run build && npx cap sync && npx cap update ios && npx cap copy ios && npx cap run ios",
 		"ios-reload": "cap run ios -l --external --port=5173",
 		"android": "npm run build && npx cap sync && npx cap update android && npx cap copy android && npx cap run android",
+		"android-reload": "cap run android -l --external --port=5173",
 		"tauri": "tauri",
 		"build-tauri": "npm run build && tauri build"
 	},
