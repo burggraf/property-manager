@@ -13,12 +13,15 @@
     import Content from '$lib/components/Content.svelte';
     import StatusBar from '$lib/components/StatusBar.svelte';
 	import { Check, X, Trash2 } from 'lucide-svelte'
+	import { cn } from '$lib/utils';
 
 	let firstName = $state('')
 	let lastName = $state('')
 	let email = $state('')	
 	let bio = $state('')
 	let loading = false
+	let bioTextarea: HTMLTextAreaElement;
+
 	$effect(() => {
 		// console.log('$user', $user)
 
@@ -28,6 +31,8 @@
 			lastName = $user.user_metadata?.last_name || ''
 			email = $user.email || ''
 			bio = $user.user_metadata?.bio || ''
+			// Add a small delay to ensure the DOM has updated
+			setTimeout(autoGrow, 0);
 		} else {
 			firstName = ''
 			lastName = ''
@@ -36,8 +41,25 @@
 		}
 	});
 
+	function autoGrow() {
+		if (bioTextarea) {
+			bioTextarea.style.height = 'auto';
+			bioTextarea.style.height = bioTextarea.scrollHeight + 'px';
+		}
+	}
 
-/*
+	$effect(() => {
+		autoGrow();
+	});
+
+	// Use onMount to ensure the DOM is ready
+	onMount(() => {
+		if (bioTextarea) {
+			autoGrow();
+		}
+	});
+
+	/*
 	onMount(() => {
 		
 		user.subscribe((currentUser) => {
@@ -45,6 +67,7 @@
 				firstName = currentUser.user_metadata?.first_name || ''
 				lastName = currentUser.user_metadata?.last_name || ''
 				email = currentUser.email || ''
+				bio = currentUser.user_metadata?.bio || ''
 			}
 		})
 	})
@@ -96,21 +119,34 @@
 						<Label for="firstName">{$t('account.firstName')}</Label>
 						<Input id="firstName" type="text" bind:value={firstName} />
 					</div>
-					<div>
+					<div class="mb-4">
 						<Label for="lastName">{$t('account.lastName')}</Label>
 						<Input id="lastName" type="text" bind:value={lastName} />
 					</div>
-					<div>
-						<Label for="bio">{$t('account.bio')}</Label>
-						<Textarea id="bio" bind:value={bio} rows="3" class="resize-y" />
+					<div class="w-full p-2 border rounded bg-background mt-4">
+						<label for="bio" class="block text-sm font-medium text-foreground">{$t('account.bio')}</label>
+						<textarea
+							id="bio"
+							bind:value={bio}
+							bind:this={bioTextarea}
+							oninput={autoGrow}
+							rows="1"
+							class={cn(
+								'mt-1 p-2 w-full bg-background border rounded',
+								'text-foreground placeholder:text-muted-foreground',
+								'focus:ring-ring focus:border-ring',
+								'resize-none overflow-hidden'
+							)}
+						></textarea>
 					</div>
 					<!--
 					<Button type="submit" disabled={loading}>
 						{loading ? $t('account.updating') : $t('account.updateProfile')}
 					</Button>
 					-->
-				<!--</form>-->
-			</Card.Content>
+					<!--
+					</form>-->
+				</Card.Content>
 			</Card.Root>
 		{:else}
 			<p>{$t('common.notLoggedIn')}</p>
