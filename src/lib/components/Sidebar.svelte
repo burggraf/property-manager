@@ -25,7 +25,7 @@
 			icon: Home,
 			items: [
 				{ label: $t('sidebar.overview'), href: "/dashboard" },
-				{ label: $t('sidebar.analytics'), href: "/dashboard/analytics" }
+				{ label: 'TEST LIST', href: "/dashboard/TestList" }
 			]
 		},
 		{
