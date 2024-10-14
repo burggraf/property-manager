@@ -132,7 +132,8 @@
     left: 0;
     right: 0;
     overflow-y: auto;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 3.5rem);
+    /* need to fix this (below) */
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6.5rem);
   }
 
   /* Ensure consistent widths between header and body */
