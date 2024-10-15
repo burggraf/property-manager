@@ -162,7 +162,7 @@ export default {
         cancel: "Cancel",
         edit: "Edit",
         delete: "Delete",
-        notLoggedIn: "Not logged in",
+        notLoggedIn: "You are not logged in",
         noData: "No data found",
         loading: "Loading..."
       },
@@ -192,5 +192,13 @@ export default {
         createSuccess: "Organization Created",
         createSuccessDescription: "'{title}' has been successfully created.",
         createError: "Error Creating Organization",
-      }
-} as const;
+        listTitle: "Organizations",
+        addNewTitle: "Add New Organization",
+        titleLabel: "Organization Title",
+        titlePlaceholder: "Enter organization title",
+        addButton: "Add New Org",
+      },
+      orgs: {
+        title: "Title",
+      },
+};

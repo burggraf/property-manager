@@ -162,7 +162,7 @@ export default {
         cancel: "Cancelar",
         edit: "Editar",
         delete: "Eliminar",
-        notLoggedIn: "No iniciado",
+        notLoggedIn: "No has iniciado sesión",
         noData: "No se encontraron datos",
         loading: "Cargando..."
       },
@@ -192,5 +192,10 @@ export default {
         createSuccess: "Organización Creada",
         createSuccessDescription: "'{title}' ha sido creada exitosamente.",
         createError: "Error al Crear la Organización",
+        listTitle: "Organizaciones",
+        addNewTitle: "Añadir Nueva Organización",
+        titleLabel: "Título de la Organización",
+        titlePlaceholder: "Ingrese el título de la organización",
+        addButton: "Añadir Nueva Org"
       }
 };

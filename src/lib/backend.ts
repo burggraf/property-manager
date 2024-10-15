@@ -47,13 +47,13 @@ export const saveItem = async (collection: string, item: any) => {
 }
 
 export const getList = async (collection: string, startingIndex: number, perPage: number, sortColumn: string, sortDirection: 'asc' | 'desc') => {
-    console.log('getList', collection, startingIndex, perPage, sortColumn, sortDirection);
+
     const { data, error } = await supabase
       .from(collection)
       .select('*')
       .order(sortColumn, { ascending: sortDirection === 'asc' })
       .range(startingIndex - 1, startingIndex + perPage - 1);
-    console.log('getList', data, error);
+        
     return { data, error} // data || [];
 }
 
