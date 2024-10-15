@@ -162,7 +162,8 @@ export default {
         edit: "Edit",
         delete: "Delete",
         notLoggedIn: "Not logged in",
-        noData: "No data found"
+        noData: "No data found",
+        loading: "Loading..."
       },
       darkModeToggle: {
         toggleTheme: "Toggle theme",
@@ -181,5 +182,14 @@ export default {
         passwordMismatch: "Passwords do not match",
         successMessage: "Password reset successful. You can now log in with your new password.",
         unexpectedError: "An unexpected error occurred. Please try again."
+      },
+      org: {
+        createTitle: "Create New Organization",
+        nameLabel: "Organization Name",
+        namePlaceholder: "Enter organization name",
+        createButton: "Create Organization",
+        createSuccess: "Organization Created",
+        createSuccessDescription: "'{title}' has been successfully created.",
+        createError: "Error Creating Organization",
       }
 } as const;

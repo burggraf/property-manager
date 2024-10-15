@@ -162,7 +162,8 @@ export default {
         edit: "Editar",
         delete: "Eliminar",
         notLoggedIn: "No iniciado",
-        noData: "No se encontraron datos"
+        noData: "No se encontraron datos",
+        loading: "Cargando..."
       },
       darkModeToggle: {
         toggleTheme: "Cambiar tema",
@@ -181,5 +182,14 @@ export default {
         passwordMismatch: "Las contraseñas no coinciden",
         successMessage: "Contraseña restablecida con éxito. Ahora puedes iniciar sesión con tu nueva contraseña.",
         unexpectedError: "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
-      }  
+      },
+      org: {
+        createTitle: "Crear Nueva Organización",
+        nameLabel: "Nombre de la Organización",
+        namePlaceholder: "Ingrese el nombre de la organización",
+        createButton: "Crear Organización",
+        createSuccess: "Organización Creada",
+        createSuccessDescription: "'{title}' ha sido creada exitosamente.",
+        createError: "Error al Crear la Organización",
+      }
 };
