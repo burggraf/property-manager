@@ -51,9 +51,9 @@
 </Navbar>
 <Content>
 	{#if data.error}
-		<p class="error">{data.error}</p>
+		<p class="error pt-6">{data.error}</p>
 	{:else if data.contacts.length === 0}
-		<p>{$t('contacts.noContacts')}</p>
+		<p class="text-center text-gray-500 pt-6">{$t('contacts.noContacts')}</p>
 	{:else}
 		<ContactsList contacts={data.contacts} />
 	{/if}
