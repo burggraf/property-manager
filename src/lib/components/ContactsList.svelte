@@ -5,7 +5,7 @@
   import { user } from '$lib/backend';
   import GenericList from './GenericList.svelte';
 
-  let contacts = $state<Contact[]>([]);
+  let contacts: Contact[] = $state<Contact[]>([]);
   let currentSortColumn = $state('lastname');
   let currentSortDirection = $state<'asc' | 'desc'>('asc');
 
@@ -24,7 +24,7 @@
         console.error('Error loading contacts:', error);
         contacts = [];
       } else {
-        contacts = data;
+        contacts = data as Contact[];
       }
     } catch (error) {
       console.error('Error loading contacts:', error);

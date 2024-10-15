@@ -104,7 +104,7 @@
       </TableBody>
     </Table>
     {#if sortedData.length === 0}
-      <p class="text-center text-gray-500 mt-4">{$t('generic.noData')}</p>
+      <p class="text-center text-gray-500 mt-4">{$t('common.noData')}</p>
     {/if}
   </div>
 </div>

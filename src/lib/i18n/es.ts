@@ -160,7 +160,8 @@ export default {
         cancel: "Cancelar",
         edit: "Editar",
         delete: "Eliminar",
-        notLoggedIn: "No iniciado"
+        notLoggedIn: "No iniciado",
+        noData: "No se encontraron datos"
       },
       darkModeToggle: {
         toggleTheme: "Cambiar tema",

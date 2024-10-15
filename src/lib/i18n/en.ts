@@ -160,7 +160,8 @@ export default {
         cancel: "Cancel",
         edit: "Edit",
         delete: "Delete",
-        notLoggedIn: "Not logged in"
+        notLoggedIn: "Not logged in",
+        noData: "No data found"
       },
       darkModeToggle: {
         toggleTheme: "Toggle theme",
