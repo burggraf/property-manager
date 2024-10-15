@@ -146,27 +146,39 @@
 {#if open}
 	<Dialog.Root open={true}>
 		<Dialog.Content class="sm:max-w-[425px]">
-				<Dialog.Header>
-					<Dialog.Title
-						>{isLogin ? $t('loginModal.loginTitle') : $t('loginModal.registerTitle')}</Dialog.Title
-					>
-					<Dialog.Description>
-						{isLogin ? $t('loginModal.loginDescription') : $t('loginModal.registerDescription')}
-					</Dialog.Description>
-				</Dialog.Header>
-			<div class="space-y-4 py-4">
+			<Dialog.Header>
+				<Dialog.Title>
+					{isLogin ? $t('loginModal.loginTitle') : $t('loginModal.registerTitle')}
+				</Dialog.Title>
+				<Dialog.Description>
+					{isLogin ? $t('loginModal.loginDescription') : $t('loginModal.registerDescription')}
+				</Dialog.Description>
+			</Dialog.Header>
+			<form onsubmit={(e) => { e.preventDefault(); handleLogin(); }} class="space-y-4 py-4">
 				<div class="space-y-2">
 					<Label for="email">{$t('loginModal.emailLabel')}</Label>
-					<Input id="email" type="email" bind:value={email} required />
+					<Input 
+						id="email" 
+						type="email" 
+						bind:value={email} 
+						required 
+						autocomplete="username"
+					/>
 				</div>
 				<div class="space-y-2">
 					<Label for="password">{$t('loginModal.passwordLabel')}</Label>
-					<Input id="password" type="password" bind:value={password} required />
+					<Input 
+						id="password" 
+						type="password" 
+						bind:value={password} 
+						required 
+						autocomplete={isLogin ? "current-password" : "new-password"}
+					/>
 				</div>
 				{#if error}
 					<p class="text-red-500">{error}</p>
 				{/if}
-				<Button class="w-full" onclick={handleLogin} disabled={loading}>
+				<Button type="submit" class="w-full" disabled={loading}>
 					{loading
 						? $t('loginModal.loading')
 						: isLogin
@@ -208,7 +220,7 @@
 					</svg>
 					Google
 				</Button>
-			</div>
+			</form>
 			<Dialog.Footer>
 				<Button variant="link" onclick={toggleMode}>
 					{isLogin ? $t('loginModal.needAccount') : $t('loginModal.alreadyHaveAccount')}
