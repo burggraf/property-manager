@@ -16,6 +16,7 @@
 
   let title = $state('');
   let isLoading = $state(false);
+  let orgs = $state(data.orgs);
 
   async function createOrg() {
     if (!$user) {
@@ -25,16 +26,23 @@
     }
     isLoading = true;
     try {
-      const { data, error } = await supabase.functions.invoke('org_create', {
+      const { data: newOrg, error } = await supabase.functions.invoke('org_create', {
         body: { title },
       });
 
       if (error) throw error;
 
+      const formattedNewOrg = {
+        id: newOrg.id || 'temp-id-' + Date.now(),
+        title: newOrg.title || title,
+      };
+
+      orgs = [formattedNewOrg, ...orgs];
+
       showToast($t('org.createSuccess'), { type: 'success' })
 
-      // Reset the form
       title = '';
+
     } catch (error) {
       console.error('Error creating org:', error);
       showToast($t('org.createError'), { type: 'error' })
@@ -61,7 +69,7 @@
     {#if $user}
       <div class="space-y-6">
         <GenericList
-          data={data.orgs}
+          data={orgs}
           headers={headers}
           onRowClick={handleOrgClick}
         />
