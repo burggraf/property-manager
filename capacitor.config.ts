@@ -16,8 +16,8 @@ function getLocalIpAddress() {
 console.log('getLocalIpAddress()',getLocalIpAddress());
 
 const config: CapacitorConfig = {
-  appId: 'com.dmarie.rentalmanager',
-  appName: 'Rental Manager',
+  appId: 'com.dmarie.property-manager',
+  appName: 'Property Manager',
   webDir: 'build',
   bundledWebRuntime: false,
   ios: {

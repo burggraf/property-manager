@@ -1,6 +1,6 @@
 {
-	"name": "rental-manager",
-	"title": "Rental Manager",
+	"name": "property-manager",
+	"title": "Property Manager",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
