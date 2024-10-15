@@ -15,7 +15,7 @@
     import StatusBar from '$lib/components/StatusBar.svelte';
 	import { user, getSession } from '$lib/backend';
 	import { onMount } from 'svelte'
-
+	import { generateRandomContacts } from '$lib/contactService'
 	let { data } = $props<{ data: PageData }>();
 
 	function handleNewContact() {
@@ -35,6 +35,11 @@
 			}
 		}
 	]);
+
+	async function handleAddRandomContacts() {
+		const newContacts = await generateRandomContacts(20, $user?.id || '');
+		data.contacts = [...data.contacts, ...newContacts];
+	}
 
 </script>
 <!--<div class="flex flex-col min-h-screen pt-[var(--header-height)]">-->
@@ -57,5 +62,11 @@
 	{:else}
 		<ContactsList contacts={data.contacts} />
 	{/if}
+	
+	<div class="mt-6 flex justify-center">
+		<Button onclick={handleAddRandomContacts}>
+			{$t('contacts.addRandomContacts', { default: 'Add 20 Random Contacts' })}
+		</Button>
+	</div>
 </Content>
 <StatusBar />
