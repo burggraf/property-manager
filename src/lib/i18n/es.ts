@@ -62,7 +62,8 @@ export default {
         currentPlan: "Plan Actual",
         upgrade: "Mejorar",
         termsOfService: "Términos de Servicio",
-        privacyPolicy: "Política de Privacidad"
+        privacyPolicy: "Política de Privacidad",
+        orgs: "Organizaciones"
       },
       account: {
         title: "Configuración de la Cuenta",

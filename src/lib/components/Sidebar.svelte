@@ -33,6 +33,7 @@
 			icon: Settings,
 			items: [
 				...$user ? [{ label: $t('sidebar.account'), href: "/dashboard/account" }] : [],
+				{ label: $t('sidebar.orgs'), href: "/dashboard/orgs" },
 				{ label: $t('sidebar.language'), href: "/dashboard/language" },
 			]
 		}
