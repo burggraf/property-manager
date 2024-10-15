@@ -5,13 +5,25 @@
   import { t } from '$lib/i18n';
   import { showToast } from '$lib/utils/toast'
   import Navbar from '$lib/components/Navbar.svelte';
- import Content from '$lib/components/Content.svelte';
+  import Content from '$lib/components/Content.svelte';
   import StatusBar from '$lib/components/StatusBar.svelte';
+  import GenericList from '$lib/components/GenericList.svelte';
+
+  import { user, getSession } from '$lib/backend';
+  import { fetchOrgs } from '$lib/orgService';
+  import type { PageData } from './$types'
+
+  // Add this line to receive the organizations data from +page.ts
+  let { data } = $props<{ data: PageData }>();
+
+  let orgs: any[] = $state<any[]>([]);
+  let currentSortColumn = $state('title');
+  let currentSortDirection = $state<'asc' | 'desc'>('asc');
+
 
   let title = '';
   let isLoading = false;
 
-  import { user } from '$lib/backend';
   async function createOrg() {
     if (!$user) {
       console.error('User not logged in -showing toast');
@@ -37,39 +49,40 @@
       isLoading = false;
     }
   }
+
+  // Function to handle clicking on an organization
+  function handleOrgClick(org) {
+    // Implement the action when an org is clicked, e.g., navigate to org details
+    console.log('Clicked on org:', org);
+  }
+  async function handleSort(column: string, direction: 'asc' | 'desc') {
+    currentSortColumn = column;
+    currentSortDirection = direction;
+    await fetchOrgs(column, direction);
+  }
+  const headers = [
+    { key: 'title', label: 'orgs.title', sortable: true },
+  ];
+
 </script>
+
 <Navbar>
     <div slot="title">{$t('org.createTitle')}</div>
 </Navbar>
+
 <Content>
-<div class="container mx-auto p-4">  
-  {#if $user}
-  <form on:submit|preventDefault={createOrg} class="mt-4 space-y-4 flex flex-col items-center">
-    <div class="w-full max-w-[200px] flex flex-col items-center">
-      <label for="title" class="pl-2 w-full pb-2 block text-sm font-medium text-gray-700 text-left">
-        {$t('org.nameLabel')}
-      </label>
-      <Input
-        type="text"
-        id="title"
-        bind:value={title}
-        placeholder={$t('org.namePlaceholder')}
-        required
-        class="w-full"
-      />
-    </div>
-    
-    <Button type="submit" disabled={isLoading} class="w-full max-w-[200px]">
-      {#if isLoading}
-        {$t('common.loading')}
-      {:else}
-        {$t('org.createButton')}
-      {/if}
-    </Button>
-    </form>
+  <div class="container mx-auto p-4">  
+    {#if $user}
+    <GenericList
+        data={data.orgs}
+        headers={headers}
+        onRowClick={handleOrgClick}
+        onSort={handleSort}
+        />
     {:else}
       <p class="pt-8 text-center text-lg text-gray-500">{$t('common.notLoggedIn')}</p>
-  {/if}
-</div>
+    {/if}
+  </div>
 </Content>
+
 <StatusBar />
