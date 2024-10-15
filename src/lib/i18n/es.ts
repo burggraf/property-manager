@@ -43,7 +43,8 @@ export default {
         firstName: "Nombre",
         lastName: "Apellido",
         notes: "Notas",
-        save: "Guardar"
+        save: "Guardar",
+        addRandomContacts: "Agregar 20 Contactos Aleatorios"
       },
       sidebar: {
         companyName: "Acme Inc",
