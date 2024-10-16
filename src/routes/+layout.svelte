@@ -8,7 +8,7 @@
 	// import { page } from '$app/stores';
 	// import LanguageSelector from '$lib/components/LanguageSelector.svelte';
 	import { ModeWatcher } from 'mode-watcher'
-  import { user, getSession } from '$lib/backend';
+  import { user, getSession, setCurrentOrgId } from '$lib/backend';
 	import { onMount } from 'svelte'
 	// let notificationSupported = $state(false);
 
@@ -21,13 +21,18 @@
         navigationBarContent: 'light',
       },
     })
-    onMount(() => {
-      getSession().then(({ data }) => {
-        if (data.session) {
-          user.set(data.session.user);
-          // Fetch user's language preference here
+
+    onMount(async () => {
+      const { data } = await getSession();
+      if (data.session) {
+        user.set(data.session.user);
+        
+        // Fetch currentOrgId from user metadata and set it
+        const currentOrgId = data.session.user.user_metadata.currentOrgId;
+        if (currentOrgId) {
+          setCurrentOrgId(currentOrgId);
         }
-      });
+      }
     });
 
 

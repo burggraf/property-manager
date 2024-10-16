@@ -7,6 +7,22 @@ import { PUBLIC_POCKETBASE_URL } from '$env/static/public'
 export const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 export const user = writable<RecordModel | null>(null);
 // 		// ? pb.getFileUrl($user, $user.avatar, { thumb: '100x100' })
+// Add this new store for the currently selected orgid
+export const currentOrgId = writable<string | null>(null);
+
+// You might want to add a function to update the currentOrgId
+export const setCurrentOrgId = (orgId: string | null) => {
+  currentOrgId.set(orgId);
+};
+
+// Optionally, you can add a function to get the current orgId from the store
+export const getCurrentOrgId = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    currentOrgId.subscribe(value => {
+      resolve(value);
+    })();
+  });
+};
 
 // **************************
 // **** DATABASE ACTIONS ****

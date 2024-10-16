@@ -7,7 +7,22 @@ import type { Contact } from '$lib/types/contact';
 
 export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
 export const user = writable<User | null>(null);
-import { createSortHandler, type SortState } from '$lib/utils/sorting';
+// Add this new store for the currently selected orgid
+export const currentOrgId = writable<string | null>(null);
+
+// You might want to add a function to update the currentOrgId
+export const setCurrentOrgId = (orgId: string | null) => {
+  currentOrgId.set(orgId);
+};
+
+// Optionally, you can add a function to get the current orgId from the store
+export const getCurrentOrgId = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    currentOrgId.subscribe(value => {
+      resolve(value);
+    })();
+  });
+};
 
 
 // **************************

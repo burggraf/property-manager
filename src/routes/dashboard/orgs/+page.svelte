@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { supabase } from '$lib/backend';
+  import { supabase, updateUser, currentOrgId, user } from '$lib/backend';
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { t } from '$lib/i18n';
@@ -9,14 +9,28 @@
   import StatusBar from '$lib/components/StatusBar.svelte';
   import GenericList from '$lib/components/GenericList.svelte';
 
-  import { user } from '$lib/backend';
   import type { PageData } from './$types'
+  import { onMount } from 'svelte';
 
   let { data } = $props<{ data: PageData }>();
 
   let title = $state('');
   let isLoading = $state(false);
   let orgs = $state(data.orgs);
+
+  let currentOrg = $state(null);
+
+  onMount(() => {
+    const unsubscribe = currentOrgId.subscribe(id => {
+      if (id) {
+        currentOrg = orgs.find(org => org.id === id) || null;
+      } else {
+        currentOrg = null;
+      }
+    });
+
+    return unsubscribe;
+  });
 
   async function createOrg() {
     if (!$user) {
@@ -51,8 +65,22 @@
     }
   }
 
-  function handleOrgClick(org) {
-    console.log('Clicked on org:', org);
+  async function handleOrgClick(org) {
+    try {
+      // Update the user metadata with the new current org ID
+      await updateUser({ currentOrgId: org.id });
+      const { data, error } = await updateUser({
+			data: { currentOrgId: org.id },
+		})
+
+      // Update the currentOrgId store
+      currentOrgId.set(org.id);
+
+      showToast($t('org.currentOrgUpdated'), { type: 'success' });
+    } catch (error) {
+      console.error('Error setting current org:', error);
+      showToast($t('org.currentOrgUpdateError'), { type: 'error' });
+    }
   }
 
   const headers = [
@@ -68,6 +96,16 @@
   <div class="container mx-auto p-4">  
     {#if $user}
       <div class="space-y-6">
+        <!-- Current Org display -->
+        <div class="bg-secondary p-4 rounded-lg mb-4">
+          <h2 class="text-lg font-semibold mb-2">{$t('org.currentOrg')}</h2>
+          {#if currentOrg}
+            <p>{currentOrg.title}</p>
+          {:else}
+            <p class="text-gray-500">{$t('org.noCurrentOrg')}</p>
+          {/if}
+        </div>
+
         <GenericList
           data={orgs}
           headers={headers}
