@@ -14,7 +14,7 @@
     import Navbar from '$lib/components/Navbar.svelte';
     import Content from '$lib/components/Content.svelte';
     import StatusBar from '$lib/components/StatusBar.svelte';
-	import { user, getSession } from '$lib/backend';
+	import { user, getSession, currentOrgId } from '$lib/backend';
 
 	function isValidEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -32,7 +32,6 @@
 			return
 		}
 		const obj = $state.snapshot(contactDetail)
-		obj.userid = $user.id
 		const { error } = await saveContact(obj)
 		if (error) {
 			console.error('Error saving contact:', error)

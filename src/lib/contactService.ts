@@ -1,4 +1,4 @@
-import { getItemById, deleteItem, saveItem, getList } from './backend';
+import { getItemById, deleteItem, saveItem, getList, currentOrgId } from './backend';
 import type { Contact } from '$lib/types/contact';
 import { faker } from '@faker-js/faker';
 
@@ -21,6 +21,9 @@ export const deleteContact = async (id: string) => {
 }
 
 export const saveContact = async (contact: Contact) => {
+    const orgId = await getCurrentOrgId();
+    contact.orgid = orgId;
+    console.log('saveContact', contact);
     const { data, error } = await saveItem('contacts', contact);
     return { data, error };
 }
@@ -30,14 +33,15 @@ export const getAllContacts = async () => {
 }
 
 export async function fetchContacts(column: string, direction: 'asc' | 'desc') {
-    const { data, error } = await getList('contacts', 1, 50, column, direction);
+    const orgId = await getCurrentOrgId();
+    const { data, error } = await getList('contacts', 1, 50, column, direction, 'orgid', orgId);
     return { data, error };
 }
 
-export function generateRandomContact(userid: string): Contact {
+export function generateRandomContact(): Contact {
     return {
-        id: userid.indexOf('-') > -1 ? faker.string.uuid() : '',
-        userid: userid,
+        id: faker.string.uuid(),
+        orgid: '', // This will be set in saveContact
         firstname: faker.person.firstName(),
         lastname: faker.person.lastName(),
         email: faker.internet.email(),
@@ -45,9 +49,8 @@ export function generateRandomContact(userid: string): Contact {
     };
 }
 
-
-export async function generateRandomContacts(count: number, userid: string) {
-    const arr = Array.from({ length: count }, () => generateRandomContact(userid));
+export async function generateRandomContacts(count: number) {
+    const arr = Array.from({ length: count }, () => generateRandomContact());
     // save each contact to the database
     for (const contact of arr) {
         const { data, error } = await saveContact(contact);
@@ -57,4 +60,12 @@ export async function generateRandomContacts(count: number, userid: string) {
         }
     }
     return arr;
+}
+
+async function getCurrentOrgId(): Promise<string> {
+    return new Promise((resolve) => {
+        currentOrgId.subscribe(value => {
+            resolve(value || '');
+        })();
+    });
 }

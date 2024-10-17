@@ -37,7 +37,7 @@
 	]);
 
 	async function handleAddRandomContacts() {
-		const newContacts = await generateRandomContacts(20, $user?.id || '');
+		const newContacts = await generateRandomContacts(20);
 		data.contacts = [...data.contacts, ...newContacts];
 	}
 
