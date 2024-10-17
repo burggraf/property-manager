@@ -61,13 +61,18 @@ export const saveItem = async (collection: string, item: any) => {
     };
 }
 
-export const getList = async (collection: string, startingIndex: number, perPage: number, sortColumn: string, sortDirection: 'asc' | 'desc') => {
-
-    const { data, error } = await supabase
+export const getList = async (collection: string, startingIndex: number, perPage: number, sortColumn: string, sortDirection: 'asc' | 'desc', filterColumn?: string, filterValue?: string) => {
+    let query = supabase
       .from(collection)
       .select('*')
       .order(sortColumn, { ascending: sortDirection === 'asc' })
       .range(startingIndex - 1, startingIndex + perPage - 1);
+
+    if (filterColumn && filterValue) {
+      query = query.eq(filterColumn, filterValue);
+    }
+
+    const { data, error } = await query;
         
     return { data, error} // data || [];
 }
