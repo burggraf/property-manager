@@ -44,7 +44,8 @@ export default {
         lastName: "Apellido",
         notes: "Notas",
         save: "Guardar",
-        addRandomContacts: "Agregar 20 Contactos Aleatorios"
+        addRandomContacts: "Agregar 20 Contactos Aleatorios",
+        noOrgSelected: "No se ha seleccionado ninguna organización"
       },
       sidebar: {
         companyName: "Acme Inc",
@@ -196,6 +197,11 @@ export default {
         addNewTitle: "Añadir Nueva Organización",
         titleLabel: "Título de la Organización",
         titlePlaceholder: "Ingrese el título de la organización",
-        addButton: "Añadir Nueva Org"
-      }
+        addButton: "Añadir Nueva Org",
+        currentOrg: "Organización Actual"
+      },     
+      orgs: {
+        title: "Título"
+      },
+
 };
