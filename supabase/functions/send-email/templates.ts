@@ -8,7 +8,7 @@ export const emailTemplates: Record<string, Record<string, EmailTemplate>> = {
       en: {
         subject: "Confirm your signup",
         html: `
-          <h2>Confirm your Property Managersignup</h2>
+          <h2>Confirm your signup</h2>
           <p>Follow this link to confirm your user:</p>
           <p><a href="{{.ConfirmationURL}}">Confirm your mail</a></p>
         `,

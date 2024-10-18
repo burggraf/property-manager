@@ -80,7 +80,7 @@ export const getAvatarUrl = (user: User) => {
   return user?.user_metadata?.picture || '';
 }
 
-export const signInWithPassword = async (email: string, password: string) => {
+export const signInWithPassword = async (email: string, password: string) => {    
     const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -93,9 +93,16 @@ export const signInWithPassword = async (email: string, password: string) => {
 }
 
 export const signUp = async (email: string, password: string) => {
+    const currentLanguage = localStorage.getItem('locale') || 'en';
     const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+            data: {
+              language: currentLanguage,
+              i18n: currentLanguage
+            }
+          }
       });
       return String(signUpError);
 }
