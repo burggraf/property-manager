@@ -28,7 +28,7 @@
 			try {
 				const signInError = await signInWithPassword(email, password)
 				if (signInError) {
-					error = signInError
+					error = signInError.message
 					showToast(error, { type: 'error' })
 				} else {
 					// The user store should be automatically updated by Supabase
@@ -47,8 +47,8 @@
 			try {
 				const signUpError = await signUp(email, password)
 				if (signUpError && signUpError !== 'null') {
-					error = signUpError
-					showToast(error, { type: 'error' })
+					console.log('signUpError', signUpError)
+					showToast(signUpError.message || 'An unexpected error occurred', { type: 'error' })
 				} else {
 					// The user store should be automatically updated by Supabase
 					// We'll force a re-check of the session to be sure
@@ -78,7 +78,7 @@
 			const signInError = await signInWithOAuth('google')
 
 			if (signInError) {
-				error = signInError
+				error = signInError.message
 				showToast(error, { type: 'error' })
 			} else {
 				// For OAuth, we don't need to manually refresh the session
@@ -114,11 +114,11 @@
 		}
 
 		try {
-			const { resetError } = await resetPasswordForEmail(email)
+			const { error: resetError } = await resetPasswordForEmail(email)
 
-			if (resetError) {
-				error = resetError.message
-				showToast(error, { type: 'error' })
+			if (resetError && resetError !== null) {
+				error = resetError?.message
+				showToast(error || 'An unexpected error occurred', { type: 'error' })
 			} else {
 				// Show success message
 				error = null
