@@ -48,7 +48,7 @@
 				const signUpError = await signUp(email, password)
 				if (signUpError && signUpError !== 'null') {
 					console.log('signUpError', signUpError)
-					showToast(signUpError.message || 'An unexpected error occurred', { type: 'error' })
+					showToast(signUpError || 'An unexpected error occurred', { type: 'error' })
 				} else {
 					// The user store should be automatically updated by Supabase
 					// We'll force a re-check of the session to be sure
