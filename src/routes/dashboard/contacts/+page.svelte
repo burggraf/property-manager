@@ -43,15 +43,8 @@
 					return
 				}
 			})
-			showToast(
-				selectedContacts.length === 1
-					? $t('contacts.deleteSuccessSingle')
-					: $t('contacts.deleteSuccessMuliple'),
-				{
-					type: 'success',
-				}
-			)
 			selectedContacts = []
+			window.location.reload()
 		}
 	}
 
