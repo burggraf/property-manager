@@ -35,7 +35,10 @@
 
 	async function handleAddRandomContacts() {
 		const newContacts = await generateRandomContacts(20)
-		data.contacts = [...data.contacts, ...newContacts]
+		console.log('goto contacts page')
+		window.location.reload()
+		//goto('/dashboard/contacts', { replaceState: true })
+		//data.contacts = [...data.contacts, ...newContacts]
 	}
 </script>
 
@@ -61,7 +64,7 @@
 				<Button onclick={handleAddRandomContacts}>
 					{$t('contacts.addRandomContacts')}
 				</Button>
-			</div>		
+			</div>
 		{:else}
 			<ContactsList contacts={data.contacts} />
 			<div class="mt-6 flex justify-center">
@@ -69,7 +72,6 @@
 					{$t('contacts.addRandomContacts')}
 				</Button>
 			</div>
-		
 		{/if}
 	{:else}
 		<p class="text-center text-gray-500 pt-6">{$t('contacts.noOrgSelected')}</p>

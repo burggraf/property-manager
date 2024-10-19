@@ -5,7 +5,7 @@
 	import { Check, X, Trash2 } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
-	import { supabase, user } from '$lib/backend'
+	import { supabase, setCurrentOrgId, updateUser, user } from '$lib/backend'
 	let { data } = $props()
 	let orgDetail = $state(data.org?.data || { title: '' })
 	let isNewOrg = $derived($page.params.id === 'new')
@@ -14,7 +14,6 @@
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
 	import { Input } from '$lib/components/ui/input'
-
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
@@ -29,6 +28,11 @@
 				})
 
 				if (error) throw error
+				// Set the newly created org as the current org
+				setCurrentOrgId(newOrg.org.id)
+				const { data: updateUserData, error: updateUserError } = await updateUser({
+					data: { currentOrgId: newOrg.org.id },
+				})
 
 				showToast($t('org.createSuccess'), { type: 'success' })
 				goto('/dashboard/orgs') // Navigate back to org list after successful creation
