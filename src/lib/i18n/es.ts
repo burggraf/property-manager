@@ -186,6 +186,7 @@ export default {
         unexpectedError: "Ocurrió un error inesperado. Por favor, inténtalo de nuevo."
       },
       org: {
+        noCurrentOrg: "No se ha seleccionado ninguna organización",
         createTitle: "Crear Nueva Organización",
         nameLabel: "Nombre de la Organización",
         namePlaceholder: "Ingrese el nombre de la organización",
@@ -203,5 +204,16 @@ export default {
       orgs: {
         title: "Título"
       },
+      orgDetail: {
+        titleMissing: "El título es obligatorio",
+        saveSuccess: "Organización guardada exitosamente",
+        saveError: "Error al guardar la organización",
+        deleteConfirmation: "¿Estás seguro de que quieres eliminar esta organización?",
+        deleteError: "Error al eliminar la organización",
+        deleteSuccess: "Organización eliminada exitosamente",
+        createNew: "Crear Nueva Organización",
+        editOrg: "Editar Organización",
+        title: "Título de la Organización",
+      }
 
 };
