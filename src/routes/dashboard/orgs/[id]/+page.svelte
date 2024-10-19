@@ -52,7 +52,9 @@
 
 	async function handleDelete() {
 		if (confirm($t('orgDetail.deleteConfirmation'))) {
-			const { data, error } = await supabase.rpc('org_delete', { id: orgDetail.id })
+			const { data, error } = await supabase.functions.invoke('org_delete', {
+				body: { id: orgDetail.id },
+			})
 			if (error) {
 				console.error('Error deleting organization:', error)
 				showToast($t('orgDetail.deleteError'), { type: 'error' })
