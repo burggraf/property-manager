@@ -209,15 +209,29 @@ export default {
         title: "Título"
       },
       orgDetail: {
-        titleMissing: "El título es obligatorio",
-        saveSuccess: "Organización guardada exitosamente",
-        saveError: "Error al guardar la organización",
+        titleMissing: "El título de la organización es obligatorio",
+        saveSuccess: "Detalles de la organización guardados con éxito",
+        saveError: "Error al guardar los detalles de la organización",
         deleteConfirmation: "¿Estás seguro de que quieres eliminar esta organización?",
         deleteError: "Error al eliminar la organización",
-        deleteSuccess: "Organización eliminada exitosamente",
+        deleteSuccess: "Organización eliminada con éxito",
         createNew: "Crear Nueva Organización",
         editOrg: "Editar Organización",
         title: "Título de la Organización",
-      }
-
+      },
+      invites: {
+        loadError: "Error al cargar las invitaciones",
+        emailRequired: "El correo electrónico es obligatorio",
+        invalidEmail: "Por favor, ingrese una dirección de correo electrónico válida",
+        createError: "Error al crear la invitación",
+        createSuccess: "Invitación creada con éxito",
+        title: "Invitaciones",
+        emailPlaceholder: "Ingrese la dirección de correo electrónico",
+        inviteUser: "Invitar Usuario",
+      },
+      common: {
+        cancel: "Cancelar",
+        save: "Guardar",
+        delete: "Eliminar",
+      },
 };

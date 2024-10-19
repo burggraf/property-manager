@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation'
 	import { t } from '$lib/i18n'
 	import { cn } from '$lib/utils'
-	import { Check, X, Trash2, Mail, Plus } from 'lucide-svelte'
+	import { Check, X, Trash2, Mail, Plus, UserPlus } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
 	import { supabase, setCurrentOrgId, updateUser, user } from '$lib/backend'
@@ -188,7 +188,15 @@
 
 				{#if !isNewOrg}
 					<div class="w-full p-2 border rounded bg-background">
-						<h2 class="text-lg font-semibold mb-2">{$t('invites.title')}</h2>
+						<div class="flex justify-between items-center mb-2">
+							<h2 class="text-lg font-semibold">{$t('invites.title')}</h2>
+							{#if !showInviteForm}
+								<Button onclick={() => (showInviteForm = true)} variant="outline" class="ml-auto">
+									<UserPlus class="w-4 h-4 mr-2" />
+									{$t('invites.inviteUser')}
+								</Button>
+							{/if}
+						</div>
 						<ul class="space-y-2">
 							{#each invites as invite (invite.id)}
 								<li class="flex justify-between items-center">
@@ -230,11 +238,6 @@
 									<p class="text-sm text-destructive">{emailError}</p>
 								{/if}
 							</div>
-						{:else}
-							<Button onclick={() => (showInviteForm = true)} class="mt-2" variant="outline">
-								<Plus class="w-4 h-4 mr-2" />
-								{$t('invites.inviteUser')}
-							</Button>
 						{/if}
 					</div>
 				{/if}
