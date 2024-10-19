@@ -5,34 +5,48 @@
 	import { Check, X, Trash2 } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
-	import { supabase } from '$lib/backend'
+	import { supabase, user } from '$lib/backend'
 	let { data } = $props()
-	let orgDetail = $state(data.org.data || { title: '' })
-	let isNewOrg = $derived($page.url.pathname.split('/').pop() === 'new')
+	let orgDetail = $state(data.org?.data || { title: '' })
+	let isNewOrg = $derived($page.params.id === 'new')
+	let isLoading = $state(false)
 	import Navbar from '$lib/components/Navbar.svelte'
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
+	import { Input } from '$lib/components/ui/input'
 
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
 			return
 		}
-		const obj = $state.snapshot(orgDetail)
 
-		// Call the Supabase Edge Function 'org_update'
-		const { data, error } = await supabase.functions.invoke('org_update', {
-			body: { id: orgDetail.id, title: orgDetail.title },
-		})
+		isLoading = true
+		try {
+			if (isNewOrg) {
+				const { data: newOrg, error } = await supabase.functions.invoke('org_create', {
+					body: { title: orgDetail.title },
+				})
 
-		if (error) {
-			console.error('Error saving organization:', error)
-			showToast($t('orgDetail.saveError'), { type: 'error' })
-		} else {
-			setTimeout(() => {
+				if (error) throw error
+
+				showToast($t('org.createSuccess'), { type: 'success' })
+				goto('/dashboard/orgs') // Navigate back to org list after successful creation
+			} else {
+				const { data, error } = await supabase.functions.invoke('org_update', {
+					body: { id: orgDetail.id, title: orgDetail.title },
+				})
+
+				if (error) throw error
+
 				showToast($t('orgDetail.saveSuccess'), { type: 'success' })
-			}, 100)
-			goto('/dashboard/orgs')
+				goto('/dashboard/orgs')
+			}
+		} catch (error) {
+			console.error('Error saving organization:', error)
+			showToast(isNewOrg ? $t('org.createError') : $t('orgDetail.saveError'), { type: 'error' })
+		} finally {
+			isLoading = false
 		}
 	}
 
@@ -72,6 +86,7 @@
 			onclick={handleSave}
 			class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
 			aria-label={$t('common.save')}
+			disabled={isLoading}
 		>
 			<Check class="w-6 h-6" />
 		</button>
@@ -88,15 +103,12 @@
 					<label for="title" class="block text-sm font-medium text-foreground"
 						>{$t('orgDetail.title')}</label
 					>
-					<input
+					<Input
 						id="title"
 						type="text"
 						bind:value={orgDetail.title}
-						class={cn(
-							'mt-1 p-2 w-full bg-background border rounded',
-							'text-foreground placeholder:text-muted-foreground',
-							'focus:ring-ring focus:border-ring'
-						)}
+						placeholder={$t('org.titlePlaceholder')}
+						required
 					/>
 				</div>
 

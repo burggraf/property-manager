@@ -9,7 +9,6 @@ export const load: PageLoad = async () => {
 
   // const { data, error } = await getAllOrgs();
   const { data, error } = await fetchOrgs('title', 'asc');
-  console.log('fetchOrgs: data, error: ', data, error);
   return {
     orgs: data as any[] || [],
     error: error?.message || null

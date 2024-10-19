@@ -5,7 +5,6 @@ import type { Org } from '$lib/types/org.ts';
 let $user: any = null;
 user.subscribe((u) => {
     $user = u;
-    console.log('orgService: user: ', $user);
 });
 
 export const getOrgById = async (id: string) => {
