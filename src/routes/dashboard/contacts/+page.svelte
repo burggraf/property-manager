@@ -31,7 +31,7 @@
 		const confirmMessage =
 			selectedContacts.length === 1
 				? $t('contacts.confirmDeleteSingle')
-				: $t('contacts.confirmDeleteMultiple', { count: selectedContacts.length })
+				: $t('contacts.confirmDeleteMultiple')
 
 		if (confirm(confirmMessage)) {
 			console.log(`Deleting ${selectedContacts.length} contacts`)
@@ -43,9 +43,14 @@
 					return
 				}
 			})
-			showToast($t('contacts.deleteSuccess', { count: selectedContacts.length }), {
-				type: 'success',
-			})
+			showToast(
+				selectedContacts.length === 1
+					? $t('contacts.deleteSuccessSingle')
+					: $t('contacts.deleteSuccessMuliple'),
+				{
+					type: 'success',
+				}
+			)
 			selectedContacts = []
 		}
 	}
