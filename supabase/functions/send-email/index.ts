@@ -5,10 +5,6 @@ const hookSecret = Deno.env.get("SEND_EMAIL_HOOK_SECRET") as string;
 const mailgunApiKey = Deno.env.get("MAILGUN_API_KEY") as string;
 const mailgunDomain = Deno.env.get("MAILGUN_DOMAIN") as string;
 
-console.log('SEND_EMAIL_HOOK_SECRET:', !!hookSecret);
-console.log('MAILGUN_API_KEY:', !!mailgunApiKey);
-console.log('MAILGUN_DOMAIN:', mailgunDomain);
-
 const mailgun = new Mailgun({
   key: mailgunApiKey,
   domain: mailgunDomain,
@@ -43,20 +39,16 @@ Deno.serve(async (req) => {
   try {
     const payload = await req.text();
     const headers = Object.fromEntries(req.headers);
-    console.log('Received payload:', payload);
-    console.log('Headers:', headers);
 
     const wh = new Webhook(hookSecret);
     const { user, email_data } = wh.verify(payload, headers) as WebhookPayload;
 
     const language = user.user_metadata.i18n || 'en';
-    console.log('Got Language:', language);
-    console.log('email_data', JSON.stringify(email_data,null,2));
 
     const subject = emailTemplates[email_data.email_action_type][language].subject || 'Notification';
-    console.log('Got Subject:', subject);
+
     let template = emailTemplates[email_data.email_action_type][language].html;
-    console.log('Got Template:', template);
+
     if (!template) {
       console.warn(`No template found for type: ${email_data.email_action_type}, lang: ${language}. Falling back to English.`);
       template = emailTemplates[email_data.email_action_type]['en'].html;
@@ -86,14 +78,6 @@ Deno.serve(async (req) => {
       .replace('{{.site_url}}', email_data.site_url || '')
       .replace('{{.email_action_type}}', email_data.email_action_type || '')
 
-    console.log('Preparing to send email:', {
-      from: FROM_EMAIL,
-      to: user.email,
-      subject: subject,
-      htmlLength: htmlBody.length,
-      html: htmlBody
-    });
-
     try {
       const result = await mailgun.send({
         from: FROM_EMAIL,
@@ -102,12 +86,10 @@ Deno.serve(async (req) => {
         html: htmlBody,
       });
 
-      console.log(`Email sent successfully to ${user.email} for action: ${email_data.email_action_type}`, result);
       return new Response(JSON.stringify({ message: 'Email sent successfully.' }), {
         headers: { 'Content-Type': 'application/json' },
       });
     } catch (error) {
-      console.error('Error sending email:', error);
       throw error; // Re-throw to be caught by outer try-catch
     }
   } catch (error) {
