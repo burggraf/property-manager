@@ -8,6 +8,8 @@
     DialogTrigger,
   } from "$lib/components/ui/dialog";
   import { setLocale, locale, t } from '$lib/i18n';
+  import { user } from '$lib/stores/authStore';
+  import { updateUser } from '$lib/backend';
 
   const supportedLanguages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -17,9 +19,19 @@
 
   let isOpen = $state(false);
 
-  function handleChange(code: string) {
+  async function handleChange(code: string) {
     setLocale(code);
     isOpen = false;
+
+    if ($user) {
+      try {
+        await updateUser({
+          data: { i18n: code }
+        });
+      } catch (error) {
+        console.error('Error updating user language preference:', error);
+      }
+    }
   }
 
   let currentLanguage = $derived(supportedLanguages.find(lang => lang.code === $locale) || supportedLanguages[0]);

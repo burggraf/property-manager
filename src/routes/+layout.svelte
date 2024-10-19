@@ -11,6 +11,7 @@
   import { user, getSession, setCurrentOrgId } from '$lib/backend';
 	import { onMount } from 'svelte'
 	// let notificationSupported = $state(false);
+	import { locale } from '$lib/i18n';
 
     SafeArea.enable({
       config: {
@@ -23,6 +24,13 @@
     })
 
     onMount(async () => {
+      // First, try to get the locale from localStorage
+      const storedLocale = localStorage.getItem('locale');
+      if (storedLocale) {
+        console.log('setting locale from localStorage', storedLocale);
+        locale.set(storedLocale);
+      }
+
       const { data } = await getSession();
       if (data.session) {
         user.set(data.session.user);
@@ -32,9 +40,17 @@
         if (currentOrgId) {
           setCurrentOrgId(currentOrgId);
         }
+
+        // Set the locale from the user profile if available
+        const userLocale = data.session.user.user_metadata.i18n;
+        if (userLocale) {
+          locale.set(userLocale);
+          console.log('setting locale from user metadata', userLocale);
+        } else {
+          console.log('no locale found in user metadata');
+        }
       }
     });
-
 
 	/*
   onMount(() => {
