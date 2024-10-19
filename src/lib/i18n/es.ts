@@ -45,7 +45,11 @@ export default {
         notes: "Notas",
         save: "Guardar",
         addRandomContacts: "Agregar 20 Contactos Aleatorios",
-        noOrgSelected: "No se ha seleccionado ninguna organización"
+        noOrgSelected: "No se ha seleccionado ninguna organización",
+        confirmDeleteSingle: "¿Estás seguro de que quieres eliminar este contacto?",
+        confirmDeleteMultiple: "¿Estás seguro de que quieres eliminar estos contactos?",
+        deleteContactError: "Error al eliminar el contacto",
+        deleteContactsError: "Error al eliminar los contactos"    
       },
       sidebar: {
         companyName: "Acme Inc",

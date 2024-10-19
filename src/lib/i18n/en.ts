@@ -46,6 +46,10 @@ export default {
         save: "Save",
         addRandomContacts: "Add 20 Random Contacts",
         noOrgSelected: "No organization selected",
+        confirmDeleteSingle: "Are you sure you want to delete this contact?",
+        confirmDeleteMultiple: "Are you sure you want to delete these contacts?",
+        deleteContactError: "Error deleting contact",
+        deleteContactsError: "Error deleting contacts",    
       },
       sidebar: {
         companyName: "Acme Inc",
