@@ -4,6 +4,7 @@
 	import { fetchContacts } from '$lib/contactService'
 	import { user } from '$lib/backend'
 	import GenericList from './GenericList.svelte'
+	import { createEventDispatcher } from 'svelte'
 
 	let contacts: Contact[] = $state<Contact[]>([])
 	let currentSortColumn = $state('lastname')
@@ -43,9 +44,12 @@
 
 	let selectedItems: Set<string> // array of ids
 
+	const dispatch = createEventDispatcher()
+
 	function handleSelectionChange(newSelection: Set<string>) {
 		selectedItems = newSelection
 		console.log('Selected items:', Array.from(selectedItems))
+		dispatch('selectionChange', Array.from(selectedItems))
 	}
 
 	const headers = [
