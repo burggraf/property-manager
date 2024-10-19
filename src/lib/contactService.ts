@@ -3,8 +3,9 @@ import type { Contact } from '$lib/types/contact';
 import { faker } from '@faker-js/faker';
 
 export const getContactById = async (id: string) => {
+    const orgId = await getCurrentOrgId();
     try {
-        const data = await getItemById('contacts', id);
+        const data = await getItemById('contacts', id, 'orgid', orgId);
         return { data, error: null };
     } catch (error) {
         return { data: null, error };
@@ -12,8 +13,9 @@ export const getContactById = async (id: string) => {
 }
 
 export const deleteContact = async (id: string) => {
+    const orgId = await getCurrentOrgId();
     try {
-        await deleteItem('contacts', id);
+        await deleteItem('contacts', id, 'orgid', orgId);
         return { error: null };
     } catch (error) {
         return { error };
@@ -23,7 +25,6 @@ export const deleteContact = async (id: string) => {
 export const saveContact = async (contact: Contact) => {
     const orgId = await getCurrentOrgId();
     contact.orgid = orgId;
-    console.log('saveContact', contact);
     const { data, error } = await saveItem('contacts', contact);
     return { data, error };
 }

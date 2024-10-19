@@ -29,23 +29,35 @@ export const getCurrentOrgId = (): Promise<string | null> => {
 // **** DATABASE ACTIONS ****
 // **************************
 
-export const getItemById = async (collection: string, id: string) => {
-    const { data, error } = await supabase
-    .from(collection)
-    .select('*')
-    .eq('id', id)
-    .single();  
+export const getItemById = async (collection: string, id: string, filterColumn?: string, filterValue?: string) => {
+    let query = supabase
+        .from(collection)
+        .select('*')
+        .eq('id', id);
+
+    if (filterColumn && filterValue) {
+        query = query.eq(filterColumn, filterValue);
+    }
+
+    const { data, error } = await query.single();
+
     return {
         data,
         error
     };
 }
 
-export const deleteItem = async (collection: string, id: string) => {
-    const { error } = await supabase
-    .from(collection)
-    .delete()
-    .eq('id', id);
+export const deleteItem = async (collection: string, id: string, filterColumn?: string, filterValue?: string) => {
+    let query = supabase
+        .from(collection)
+        .delete()
+        .eq('id', id);
+
+    if (filterColumn && filterValue) {
+        query = query.eq(filterColumn, filterValue);
+    }
+
+    const { error } = await query;
     return {
         error
     };
@@ -61,13 +73,19 @@ export const saveItem = async (collection: string, item: any) => {
     };
 }
 
-export const getList = async (collection: string, startingIndex: number, perPage: number, sortColumn: string, sortDirection: 'asc' | 'desc') => {
+export const getList = async (collection: string, startingIndex: number, perPage: number, sortColumn: string, sortDirection: 'asc' | 'desc', filterColumn?: string, filterValue?: string) => {
 
-    const { data, error } = await supabase
+    let query = supabase
       .from(collection)
       .select('*')
       .order(sortColumn, { ascending: sortDirection === 'asc' })
       .range(startingIndex - 1, startingIndex + perPage - 1);
+
+    if (filterColumn && filterValue) {
+      query = query.eq(filterColumn, filterValue);
+    }
+
+    const { data, error } = await query;
         
     return { data, error} // data || [];
 }
