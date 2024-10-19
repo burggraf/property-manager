@@ -1,5 +1,7 @@
-import { getItemById, deleteItem, saveItem, getList } from './backend';
-import { user } from './backend';
+import { getItemById, deleteItem, saveItem, getList } from './backend.ts';
+import { user } from './backend.ts';
+import type { Org } from '$lib/types/org.ts';   
+
 let $user: any = null;
 user.subscribe((u) => {
     $user = u;
@@ -20,9 +22,7 @@ export const getAllOrgs = async () => {
 }
 
 export async function fetchOrgs(column: string, direction: 'asc' | 'desc') {
-    console.log('fetchOrgs, $user: ', $user);
     const { data, error } = await getList('orgs', 1, 50, column, direction);
-    console.log('fetchOrgs: data, error: ', data, error);
     return { data, error };
 }
 

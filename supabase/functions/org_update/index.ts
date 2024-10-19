@@ -31,43 +31,50 @@ Deno.serve(async (req) => {
     const { data: { user }, error: authError } = await supabase.auth.getUser(
       authHeader.split(' ')[1],
     );
+    console.log('user', user);
     if (authError || !user) {
       throw new Error('Unauthorized');
     }
 
-    // Get the title from the request body
-    const { title } = await req.json();
-
-    // Insert new org
-    const { data: orgData, error: orgError } = await supabase
-      .from('orgs')
-      .insert({ title })
-      .select()
-      .single();
-
-    if (orgError) {
-      console.error('Error creating org:', orgError);
-      throw orgError;
+    // Get the org_id and new title from the request body
+    const { id, title } = await req.json();
+    console.log('id', id);
+    console.log('title', title);
+    if (!id || !title) {
+      throw new Error('Missing org_id or title');
     }
 
-    // Insert new orgs_users row
-    const { data: orgUserData, error: orgUserError } = await supabase
-      .from('orgs_users')
-      .insert({
-        orgid: orgData.id,
-        userid: user.id,
-        user_role: 'Owner',
-      })
+    // Check user's role in the org
+    console.log('checking user_role for org_id', id);
+    const { data: roleData, error: roleError } = await supabase
+      .rpc('get_org_role_for_user', { org_id: id, user_id: user.id })
+      .single();
+    console.log('roleData, roleError', roleData, roleError);
+
+    if (roleError) {
+      console.error('Error checking user role:', roleError);
+      throw roleError;
+    }
+    console.log('roleData', roleData);
+    if (roleData !== 'Owner') {
+      throw new Error('Unauthorized: User is not an Owner of this org');
+    }
+
+    // Update org title
+    const { data: updatedOrg, error: updateError } = await supabase
+      .from('orgs')
+      .update({ title })
+      .eq('id', id)
       .select()
       .single();
 
-    if (orgUserError) {
-      console.error('Error creating org_user relationship:', orgUserError);
-      throw orgUserError;
+    if (updateError) {
+      console.error('Error updating org:', updateError);
+      throw updateError;
     }
 
     return new Response(
-      JSON.stringify({ org: orgData, org_user: orgUserData }),
+      JSON.stringify({ org: updatedOrg }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
@@ -77,7 +84,7 @@ Deno.serve(async (req) => {
     console.error('Function error:', err);
     return new Response(JSON.stringify({ error: err.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: err.message === 'Unauthorized' ? 401 : 500,
+      status: err.message.includes('Unauthorized') ? 401 : 500,
     });
   }
 });
