@@ -8,8 +8,7 @@
     DialogTrigger,
   } from "$lib/components/ui/dialog";
   import { setLocale, locale, t } from '$lib/i18n';
-  import { user } from '$lib/stores/authStore';
-  import { updateUser } from '$lib/backend';
+  import { user, updateUser } from '$lib/backend';
 
   const supportedLanguages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
