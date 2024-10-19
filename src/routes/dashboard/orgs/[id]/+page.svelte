@@ -14,6 +14,8 @@
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
 	import { Input } from '$lib/components/ui/input'
+	import type { Invite } from '$lib/types/invite'
+	import { getAllInvites, getInviteById, updateInvite, deleteInvite } from '$lib/inviteService'
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
