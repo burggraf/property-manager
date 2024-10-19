@@ -2,20 +2,31 @@
 	import { goto } from '$app/navigation'
 	import { t } from '$lib/i18n'
 	import { cn } from '$lib/utils'
-	import { Check, X, Trash2 } from 'lucide-svelte'
+	import { Check, X, Trash2, Mail, Plus } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
 	import { supabase, setCurrentOrgId, updateUser, user } from '$lib/backend'
+	import { Button } from '$lib/components/ui/button'
 	let { data } = $props()
 	let orgDetail = $state(data.org?.data || { title: '' })
 	let isNewOrg = $derived($page.params.id === 'new')
 	let isLoading = $state(false)
+	let invites = $state<Invite[]>([])
+	let showInviteForm = $state(false)
+	let newInviteEmail = $state('')
+	let emailError = $state('')
 	import Navbar from '$lib/components/Navbar.svelte'
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
 	import { Input } from '$lib/components/ui/input'
 	import type { Invite } from '$lib/types/invite'
-	import { getAllInvites, getInviteById, updateInvite, deleteInvite } from '$lib/inviteService'
+	import {
+		getAllInvites,
+		getInviteById,
+		updateInvite,
+		deleteInvite,
+		createInvite,
+	} from '$lib/inviteService'
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
@@ -79,6 +90,61 @@
 		event.preventDefault()
 		handleSave()
 	}
+
+	$effect(() => {
+		if (!isNewOrg) {
+			loadInvites()
+		}
+	})
+
+	async function loadInvites() {
+		const { data, error } = await getAllInvites(orgDetail.id)
+		if (error) {
+			console.error('Error loading invites:', error)
+			showToast($t('invites.loadError'), { type: 'error' })
+		} else {
+			invites = data
+		}
+	}
+
+	function validateEmail(email: string): boolean {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+		return emailRegex.test(email)
+	}
+
+	async function handleCreateInvite() {
+		if (!newInviteEmail) {
+			emailError = $t('invites.emailRequired')
+			return
+		}
+
+		if (!validateEmail(newInviteEmail)) {
+			emailError = $t('invites.invalidEmail')
+			return
+		}
+
+		emailError = ''
+
+		const { data, error } = await createInvite({
+			orgid: orgDetail.id,
+			owner: $user?.id,
+			email: newInviteEmail,
+		})
+
+		if (error) {
+			console.error('Error creating invite:', error)
+			showToast($t('invites.createError'), { type: 'error' })
+		} else {
+			showToast($t('invites.createSuccess'), { type: 'success' })
+			newInviteEmail = ''
+			showInviteForm = false
+			await loadInvites()
+		}
+	}
+
+	function formatDate(dateString: string) {
+		return new Date(dateString).toLocaleString()
+	}
 </script>
 
 <Navbar>
@@ -119,6 +185,59 @@
 						required
 					/>
 				</div>
+
+				{#if !isNewOrg}
+					<div class="w-full p-2 border rounded bg-background">
+						<h2 class="text-lg font-semibold mb-2">{$t('invites.title')}</h2>
+						<ul class="space-y-2">
+							{#each invites as invite (invite.id)}
+								<li class="flex justify-between items-center">
+									<span>{invite.email}</span>
+									<span>{formatDate(invite.expires_at)}</span>
+								</li>
+							{/each}
+						</ul>
+						{#if showInviteForm}
+							<div class="mt-2 space-y-2">
+								<div class="flex items-center space-x-2">
+									<Input
+										type="email"
+										bind:value={newInviteEmail}
+										placeholder={$t('invites.emailPlaceholder')}
+										class={cn(emailError && 'border-destructive')}
+									/>
+									<button
+										type="button"
+										onclick={() => {
+											showInviteForm = false
+											emailError = ''
+										}}
+										class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
+										aria-label={$t('common.cancel')}
+									>
+										<X class="w-5 h-5" />
+									</button>
+									<button
+										type="button"
+										onclick={handleCreateInvite}
+										class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
+										aria-label={$t('common.save')}
+									>
+										<Check class="w-5 h-5" />
+									</button>
+								</div>
+								{#if emailError}
+									<p class="text-sm text-destructive">{emailError}</p>
+								{/if}
+							</div>
+						{:else}
+							<Button onclick={() => (showInviteForm = true)} class="mt-2" variant="outline">
+								<Plus class="w-4 h-4 mr-2" />
+								{$t('invites.inviteUser')}
+							</Button>
+						{/if}
+					</div>
+				{/if}
 
 				{#if !isNewOrg}
 					<div class="absolute bottom-0 right-0 mt-4">

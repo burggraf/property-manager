@@ -25,7 +25,8 @@ export async function fetchInvites(column: string, direction: 'asc' | 'desc') {
     return { data, error };
 }
 
-export const createInvite = async (invite: Omit<Invite, 'id'>) => {
+export const createInvite = async (invite: any) => {
+    console.log('createInvite', invite);
     try {
         const data = await saveItem('orgs_invites', invite);
         return { data, error: null };
