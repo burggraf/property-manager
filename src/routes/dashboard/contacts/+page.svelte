@@ -35,16 +35,24 @@
 
 		if (confirm(confirmMessage)) {
 			console.log(`Deleting ${selectedContacts.length} contacts`)
-			selectedContacts.forEach(async (contactId) => {
-				const { error } = await deleteContact(contactId)
-				if (error) {
-					showToast($t('contacts.deleteContactError'), { type: 'error' })
-					console.error('Error deleting contact:', error)
-					return
-				}
-			})
-			selectedContacts = []
-			window.location.reload()
+			Promise.all(
+				selectedContacts.map(async (contactId) => {
+					const { error } = await deleteContact(contactId)
+					if (error) {
+						showToast($t('contacts.deleteContactError'), { type: 'error' })
+						console.error('Error deleting contact:', error)
+						throw error
+					}
+				})
+			)
+				.then(() => {
+					selectedContacts = []
+					window.location.reload()
+				})
+				.catch((error) => {
+					console.error('Error deleting contacts:', error)
+					showToast($t('contacts.deleteContactsError'), { type: 'error' })
+				})
 		}
 	}
 
