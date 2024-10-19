@@ -23,8 +23,10 @@ export const deleteContact = async (id: string) => {
 }
 
 export const saveContact = async (contact: Contact) => {
-    const orgId = await getCurrentOrgId();
-    contact.orgid = orgId;
+    if (!contact.orgid) {
+        const orgId = await getCurrentOrgId();
+        contact.orgid = orgId;
+    }
     const { data, error } = await saveItem('contacts', contact);
     return { data, error };
 }
@@ -39,9 +41,9 @@ export async function fetchContacts(column: string, direction: 'asc' | 'desc') {
     return { data, error };
 }
 
-export function generateRandomContact(): Contact {
+export function generateRandomContact(): Promise<Contact> {
     return {
-        id: faker.string.uuid(),
+        //id: '', // faker.string.uuid(),
         orgid: '', // This will be set in saveContact
         firstname: faker.person.firstName(),
         lastname: faker.person.lastName(),
@@ -52,6 +54,8 @@ export function generateRandomContact(): Contact {
 
 export async function generateRandomContacts(count: number) {
     const arr = Array.from({ length: count }, () => generateRandomContact());
+    //console.log(arr);
+    //return;
     // save each contact to the database
     for (const contact of arr) {
         const { data, error } = await saveContact(contact);
