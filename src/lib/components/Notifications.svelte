@@ -34,14 +34,14 @@
 		isOpen = !isOpen
 	}
 
-	function handleJoin(invite: Invite) {
+	function handleJoin(id: string) {
 		// Implement join logic
-		console.log('Joining:', invite)
+		console.log('Joining:', id)
 	}
 
-	function handleReject(invite: Invite) {
+	function handleReject(id: string) {
 		// Implement reject logic
-		console.log('Rejecting:', invite)
+		console.log('Rejecting:', id)
 	}
 </script>
 
@@ -70,14 +70,14 @@
 							<Button
 								variant="outline"
 								class="flex-1 bg-green-500 hover:bg-green-600 text-white"
-								on:click={() => handleJoin(invite)}
+								on:click={() => handleJoin(invite.id)}
 							>
 								{$t('notifications.join')}
 							</Button>
 							<Button
 								variant="outline"
 								class="flex-1 bg-red-500 hover:bg-red-600 text-white"
-								on:click={() => handleReject(invite)}
+								on:click={() => handleReject(invite.id)}
 							>
 								{$t('notifications.reject')}
 							</Button>
