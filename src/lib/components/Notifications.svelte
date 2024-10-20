@@ -9,7 +9,7 @@
 	} from '$lib/components/ui/dialog'
 	import { Bell } from 'lucide-svelte'
 	import { t } from '$lib/i18n'
-	import { getMyInvites, deleteInvite } from '$lib/inviteService'
+	import { getMyInvites, deleteInvite, acceptInvite } from '$lib/inviteService'
 	import type { Invite } from '$lib/types/invite'
 	import { showToast } from '$lib/utils/toast'
 
@@ -35,9 +35,16 @@
 		isOpen = !isOpen
 	}
 
-	function handleJoin(invite: Invite) {
-		// Implement join logic
+	async function handleJoin(invite: Invite) {
 		console.log('Joining:', invite)
+		const { error } = await acceptInvite(invite.id)
+		if (error) {
+			console.error('Error accepting invite:', error)
+			showToast($t('invites.acceptError'), { type: 'error' })
+		} else {
+			showToast($t('invites.acceptSuccess'), { type: 'success' })
+			invites = invites.filter((i) => i.id !== invite.id)
+		}
 	}
 
 	async function handleReject(id: string) {

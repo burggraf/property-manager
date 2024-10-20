@@ -1,6 +1,7 @@
 import { getItemById, deleteItem, saveItem, getList } from './backend.ts';
 import { user } from './backend.ts';
 import type { Invite } from '$lib/types/invite.ts';
+import { supabase } from './backend.ts';
 
 let $user: any = null;
 user.subscribe((u) => {
@@ -60,4 +61,18 @@ export const getMyInvites = async () => {
         await getList('orgs_invites', 1, 50, 'created_at', 'desc', 
             'email', $user?.email);
     return { data, error };
+}
+
+export const acceptInvite = async (id: string) => {
+    try {
+        const { data, error } = await supabase.rpc('accept_invite', { invite_id: id });
+        if (error) {
+            console.error('Error accepting invite:', error);
+            return { data: null, error };
+        }
+        return { data, error: null };
+    } catch (error) {
+        console.error('Unexpected error accepting invite:', error);
+        return { data: null, error };
+    }
 }
