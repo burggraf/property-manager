@@ -9,8 +9,9 @@
 	} from '$lib/components/ui/dialog'
 	import { Bell } from 'lucide-svelte'
 	import { t } from '$lib/i18n'
-	import { getMyInvites } from '$lib/inviteService' // Assuming this is the correct import path
+	import { getMyInvites } from '$lib/inviteService'
 	import type { Invite } from '$lib/types/invite'
+
 	let isOpen = $state(false)
 	let invites: Invite[] = $state([])
 
@@ -26,12 +27,21 @@
 			console.log('invites', invites)
 		} catch (error) {
 			console.error('Failed to fetch invites:', error)
-			// Handle error (e.g., show error message to user)
 		}
 	}
 
 	function toggleDialog() {
 		isOpen = !isOpen
+	}
+
+	function handleJoin(invite: Invite) {
+		// Implement join logic
+		console.log('Joining:', invite)
+	}
+
+	function handleReject(invite: Invite) {
+		// Implement reject logic
+		console.log('Rejecting:', invite)
 	}
 </script>
 
@@ -51,15 +61,26 @@
 				<p class="text-center text-muted-foreground">{$t('notifications.noInvites')}</p>
 			{:else}
 				{#each invites as invite}
-					<div class="flex justify-start items-center gap-2 w-full p-2 border rounded-md">
-						<Bell class="h-4 w-4" />
-						<div>
-							<p class="text-sm font-medium">
-								{invite?.metadata?.org_title || $t('notifications.newInvite')}
-							</p>
-							<p class="text-xs text-muted-foreground">
-								expires {invite?.created_at ? new Date(invite.expires_at).toLocaleString() : ''}
-							</p>
+					<div class="flex flex-col w-full p-4 border rounded-md">
+						<p class="text-sm font-medium mb-2">
+							{$t('notifications.inviteMessage')}
+							{invite?.metadata?.org_title || $t('notifications.defaultOrgTitle')}.
+						</p>
+						<div class="flex w-full gap-2">
+							<Button
+								variant="outline"
+								class="flex-1 bg-green-500 hover:bg-green-600 text-white"
+								on:click={() => handleJoin(invite)}
+							>
+								{$t('notifications.join')}
+							</Button>
+							<Button
+								variant="outline"
+								class="flex-1 bg-red-500 hover:bg-red-600 text-white"
+								on:click={() => handleReject(invite)}
+							>
+								{$t('notifications.reject')}
+							</Button>
 						</div>
 					</div>
 				{/each}

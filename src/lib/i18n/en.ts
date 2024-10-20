@@ -236,5 +236,9 @@ export default {
       notifications: {
         open: 'Open Notifications',
         title: 'Notifications',
+        inviteMessage: "You have been invited to join",
+        join: "Join",
+        reject: "Reject",
+        defaultOrgTitle: "an organization"
       },
 };

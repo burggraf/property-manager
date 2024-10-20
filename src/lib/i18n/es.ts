@@ -236,5 +236,9 @@ export default {
       notifications: {
         open: 'Abrir Notificaciones',
         title: 'Notificaciones',
+        inviteMessage: "Has sido invitado a unirte a",
+        join: "Unirse",
+        reject: "Rechazar",
+        defaultOrgTitle: "una organización"
       },
 };
