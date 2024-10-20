@@ -15,6 +15,8 @@
 	let showInviteForm = $state(false)
 	let newInviteEmail = $state('')
 	let emailError = $state('')
+	let newInviteRole = $state('Member') // Default role
+	let roleError = $state('')
 	import Navbar from '$lib/components/Navbar.svelte'
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
@@ -27,6 +29,13 @@
 		deleteInvite,
 		createInvite,
 	} from '$lib/inviteService'
+	import {
+		Select,
+		SelectContent,
+		SelectItem,
+		SelectTrigger,
+		SelectValue,
+	} from '$lib/components/ui/select'
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
@@ -123,12 +132,21 @@
 			return
 		}
 
+		if (!newInviteRole) {
+			roleError = $t('invites.roleRequired')
+			return
+		}
+
 		emailError = ''
+		roleError = ''
+
+		console.log('Creating invite with role:', newInviteRole) // Add this line for debugging
 
 		const { data, error } = await createInvite({
 			orgid: orgDetail.id,
 			owner: $user?.id,
 			email: newInviteEmail,
+			user_role: newInviteRole,
 			metadata: {
 				org_title: orgDetail.title,
 			},
@@ -140,6 +158,7 @@
 		} else {
 			showToast($t('invites.createSuccess'), { type: 'success' })
 			newInviteEmail = ''
+			newInviteRole = 'Member'
 			showInviteForm = false
 			await loadInvites()
 		}
@@ -240,11 +259,30 @@
 										placeholder={$t('invites.emailPlaceholder')}
 										class={cn(emailError && 'border-destructive')}
 									/>
+									<Select
+										onSelectedChange={(value) => {
+											console.log('value is', value)
+											console.log('newInviteRole is', newInviteRole)
+											newInviteRole = value.value
+										}}
+									>
+										<SelectTrigger class={cn('w-[180px]', roleError && 'border-destructive')}>
+											<SelectValue placeholder={$t('invites.selectRole')}
+												>{newInviteRole}</SelectValue
+											>
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="Owner">{$t('invites.roleOwner')}</SelectItem>
+											<SelectItem value="Member">{$t('invites.roleMember')}</SelectItem>
+											<SelectItem value="Read-Only">{$t('invites.roleReadOnly')}</SelectItem>
+										</SelectContent>
+									</Select>
 									<button
 										type="button"
 										onclick={() => {
 											showInviteForm = false
 											emailError = ''
+											roleError = ''
 										}}
 										class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
 										aria-label={$t('common.cancel')}
@@ -262,6 +300,9 @@
 								</div>
 								{#if emailError}
 									<p class="text-sm text-destructive">{emailError}</p>
+								{/if}
+								{#if roleError}
+									<p class="text-sm text-destructive">{roleError}</p>
 								{/if}
 							</div>
 						{/if}

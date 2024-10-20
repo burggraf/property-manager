@@ -77,7 +77,7 @@
 					<div class="flex flex-col w-full p-4 border rounded-md">
 						<p class="text-sm font-medium mb-2">
 							{$t('notifications.inviteMessage')}
-							{invite?.metadata?.org_title || $t('notifications.defaultOrgTitle')}.
+							{invite?.metadata?.org_title || $t('notifications.defaultOrgTitle')} as {invite.user_role}.
 						</p>
 						<div class="flex w-full gap-2">
 							<Button
