@@ -233,4 +233,8 @@ export default {
         deleteError: "Error al eliminar la invitación",
         deleteSuccess: "Invitación eliminada con éxito",
       },
+      notifications: {
+        open: 'Abrir Notificaciones',
+        title: 'Notificaciones',
+      },
 };
