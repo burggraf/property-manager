@@ -51,3 +51,10 @@ export const deleteInvite = async (id: string) => {
         return { error };
     }
 }
+
+export const getMyInvites = async () => {
+    const { data, error } = 
+        await getList('orgs_invites', 1, 50, 'created_at', 'desc', 
+            'email', $user?.email);
+    return { data, error };
+}

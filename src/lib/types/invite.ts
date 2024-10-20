@@ -6,5 +6,6 @@ export interface Invite {
     email: string;
     user_role: string;
     expires_at: string;
+    metadata?: { org_title: string }
   }
   

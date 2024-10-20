@@ -129,6 +129,9 @@
 			orgid: orgDetail.id,
 			owner: $user?.id,
 			email: newInviteEmail,
+			metadata: {
+				org_title: orgDetail.title,
+			},
 		})
 
 		if (error) {
