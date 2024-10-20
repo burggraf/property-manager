@@ -144,11 +144,11 @@ COMMENT ON TABLE "public"."orgs" IS 'Organizations';
 CREATE TABLE IF NOT EXISTS "public"."orgs_invites" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "orgid" "uuid",
-    "owner" "uuid",
-    "email" "text",
-    "user_role" "text",
-    "expires_at" timestamp with time zone DEFAULT ("now"() + '7 days'::interval),
+    "orgid" "uuid" NOT NULL,
+    "owner" "uuid" NOT NULL,
+    "email" "text" NOT NULL,
+    "user_role" "text" NOT NULL,
+    "expires_at" timestamp with time zone DEFAULT ("now"() + '7 days'::interval) NOT NULL,
     "metadata" "jsonb"
 );
 
@@ -220,7 +220,17 @@ ALTER TABLE ONLY "public"."orgs_invites"
 
 
 ALTER TABLE ONLY "public"."orgs_invites"
+    ADD CONSTRAINT "orgs_invites_orgid_fkey1" FOREIGN KEY ("orgid") REFERENCES "public"."orgs"("id");
+
+
+
+ALTER TABLE ONLY "public"."orgs_invites"
     ADD CONSTRAINT "orgs_invites_owner_fkey" FOREIGN KEY ("owner") REFERENCES "auth"."users"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."orgs_invites"
+    ADD CONSTRAINT "orgs_invites_owner_fkey1" FOREIGN KEY ("owner") REFERENCES "auth"."users"("id");
 
 
 
