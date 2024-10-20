@@ -9,8 +9,9 @@
 	} from '$lib/components/ui/dialog'
 	import { Bell } from 'lucide-svelte'
 	import { t } from '$lib/i18n'
-	import { getMyInvites } from '$lib/inviteService'
+	import { getMyInvites, deleteInvite } from '$lib/inviteService'
 	import type { Invite } from '$lib/types/invite'
+	import { showToast } from '$lib/utils/toast'
 
 	let isOpen = $state(false)
 	let invites: Invite[] = $state([])
@@ -34,14 +35,26 @@
 		isOpen = !isOpen
 	}
 
-	function handleJoin(id: string) {
+	function handleJoin(invite: Invite) {
 		// Implement join logic
-		console.log('Joining:', id)
+		console.log('Joining:', invite)
 	}
 
-	function handleReject(id: string) {
-		// Implement reject logic
-		console.log('Rejecting:', id)
+	async function handleReject(id: string) {
+		const confirmMessage = $t('notifications.confirmReject')
+
+		if (confirm(confirmMessage)) {
+			console.log('Rejecting:', id)
+			const { error } = await deleteInvite(id)
+			if (error) {
+				console.error('Error deleting invite:', error)
+				showToast($t('invites.deleteError'), { type: 'error' })
+			} else {
+				console.log('Invite deleted successfully')
+				showToast($t('invites.deleteSuccess'), { type: 'success' })
+				await fetchInvites()
+			}
+		}
 	}
 </script>
 
@@ -58,7 +71,7 @@
 		</DialogHeader>
 		<div class="grid gap-4 py-4">
 			{#if invites.length === 0}
-				<p class="text-center text-muted-foreground">{$t('notifications.noInvites')}</p>
+				<p class="text-center text-muted-foreground">{$t('notifications.noNotifications')}</p>
 			{:else}
 				{#each invites as invite}
 					<div class="flex flex-col w-full p-4 border rounded-md">
@@ -70,7 +83,7 @@
 							<Button
 								variant="outline"
 								class="flex-1 bg-green-500 hover:bg-green-600 text-white"
-								on:click={() => handleJoin(invite.id)}
+								on:click={() => handleJoin(invite)}
 							>
 								{$t('notifications.join')}
 							</Button>

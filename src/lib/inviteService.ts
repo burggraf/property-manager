@@ -45,7 +45,10 @@ export const updateInvite = async (id: string, invite: Partial<Invite>) => {
 
 export const deleteInvite = async (id: string) => {
     try {
-        await deleteItem('orgs_invites', id);
+        const { error } = await deleteItem('orgs_invites', id);
+        if (error) {
+            console.error('Error deleting invite:', error);
+        }
         return { error: null };
     } catch (error) {
         return { error };

@@ -239,6 +239,8 @@ export default {
         inviteMessage: "Has sido invitado a unirte a",
         join: "Unirse",
         reject: "Rechazar",
-        defaultOrgTitle: "una organización"
+        defaultOrgTitle: "una organización",
+        confirmReject: "¿Estás seguro de que quieres rechazar esta invitación?",
+        noNotifications: "No hay notificaciones",        
       },
 };

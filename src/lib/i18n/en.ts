@@ -239,6 +239,8 @@ export default {
         inviteMessage: "You have been invited to join",
         join: "Join",
         reject: "Reject",
-        defaultOrgTitle: "an organization"
+        defaultOrgTitle: "an organization",
+        confirmReject: "Are you sure you want to reject this invitation?",
+        noNotifications: "No notifications"
       },
 };
