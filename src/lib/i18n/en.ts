@@ -228,5 +228,9 @@ export default {
         title: "Invites",
         emailPlaceholder: "Enter email address",
         inviteUser: "Invite User",
+        delete: "Delete invite",
+        deleteConfirmation: "Are you sure you want to delete this invite?",
+        deleteError: "Error deleting invite",
+        deleteSuccess: "Invite deleted successfully",
       },
 };

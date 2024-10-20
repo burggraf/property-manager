@@ -169,7 +169,7 @@ export default {
         delete: "Eliminar",
         notLoggedIn: "No has iniciado sesión",
         noData: "No se encontraron datos",
-        loading: "Cargando..."
+        loading: "Cargando...",
       },
       darkModeToggle: {
         toggleTheme: "Cambiar tema",
@@ -228,10 +228,9 @@ export default {
         title: "Invitaciones",
         emailPlaceholder: "Ingrese la dirección de correo electrónico",
         inviteUser: "Invitar Usuario",
-      },
-      common: {
-        cancel: "Cancelar",
-        save: "Guardar",
-        delete: "Eliminar",
+        delete: "Eliminar invitación",
+        deleteConfirmation: "¿Estás seguro de que quieres eliminar esta invitación?",
+        deleteError: "Error al eliminar la invitación",
+        deleteSuccess: "Invitación eliminada con éxito",
       },
 };

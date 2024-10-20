@@ -145,6 +145,19 @@
 	function formatDate(dateString: string) {
 		return new Date(dateString).toLocaleString()
 	}
+
+	async function handleDeleteInvite(inviteId: string) {
+		if (confirm($t('invites.deleteConfirmation'))) {
+			const { error } = await deleteInvite(inviteId)
+			if (error) {
+				console.error('Error deleting invite:', error)
+				showToast($t('invites.deleteError'), { type: 'error' })
+			} else {
+				showToast($t('invites.deleteSuccess'), { type: 'success' })
+				await loadInvites()
+			}
+		}
+	}
 </script>
 
 <Navbar>
@@ -201,7 +214,17 @@
 							{#each invites as invite (invite.id)}
 								<li class="flex justify-between items-center">
 									<span>{invite.email}</span>
-									<span>{formatDate(invite.expires_at)}</span>
+									<div class="flex items-center space-x-2">
+										<span>{formatDate(invite.expires_at)}</span>
+										<button
+											type="button"
+											onclick={() => handleDeleteInvite(invite.id)}
+											class="p-1 rounded-full text-destructive hover:bg-muted transition-colors duration-200"
+											aria-label={$t('invites.delete')}
+										>
+											<Trash2 class="w-4 h-4" />
+										</button>
+									</div>
 								</li>
 							{/each}
 						</ul>
