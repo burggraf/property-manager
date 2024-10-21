@@ -44,6 +44,7 @@
       "npm:svelte-check@^4.0.0": "npm:svelte-check@4.0.5_svelte@5.0.0-next.272__acorn@8.13.0_typescript@5.6.3",
       "npm:svelte-sonner@^0.3.28": "npm:svelte-sonner@0.3.28_svelte@5.0.0-next.272__acorn@8.13.0",
       "npm:svelte@^5.0.0-next.265": "npm:svelte@5.0.0-next.272_acorn@8.13.0",
+      "npm:svelte@^5.0.4": "npm:svelte@5.0.4_acorn@8.13.0",
       "npm:sveltekit-i18n@^2.4.2": "npm:sveltekit-i18n@2.4.2_svelte@4.2.19",
       "npm:sveltekit-superforms@^2.19.0": "npm:sveltekit-superforms@2.20.0_@sveltejs+kit@2.7.1__@sveltejs+vite-plugin-svelte@4.0.0-next.8___svelte@5.0.0-next.272____acorn@8.13.0___vite@5.4.9__svelte@5.0.0-next.272___acorn@8.13.0__vite@5.4.9_svelte@5.0.0-next.272__acorn@8.13.0_zod@3.23.8_@sveltejs+vite-plugin-svelte@4.0.0-next.8__svelte@5.0.0-next.272___acorn@8.13.0__vite@5.4.9_vite@5.4.9_@types+node@18.16.19",
       "npm:tailwind-merge@^2.5.2": "npm:tailwind-merge@2.5.4",
@@ -2187,6 +2188,24 @@
       },
       "svelte@5.0.0-next.272_acorn@8.13.0": {
         "integrity": "sha512-HzlQOBDd23s6UVpqTEYmaTko2Q0IbnXQllL/gkPhvjURV0h0FWYsy4l/KNX/JsA6RibaqruiR+0HlvXntQiQTQ==",
+        "dependencies": {
+          "@ampproject/remapping": "@ampproject/remapping@2.3.0",
+          "@jridgewell/sourcemap-codec": "@jridgewell/sourcemap-codec@1.5.0",
+          "@types/estree": "@types/estree@1.0.6",
+          "acorn": "acorn@8.13.0",
+          "acorn-typescript": "acorn-typescript@1.4.13_acorn@8.13.0",
+          "aria-query": "aria-query@5.3.2",
+          "axobject-query": "axobject-query@4.1.0",
+          "esm-env": "esm-env@1.0.0",
+          "esrap": "esrap@1.2.2",
+          "is-reference": "is-reference@3.0.2",
+          "locate-character": "locate-character@3.0.0",
+          "magic-string": "magic-string@0.30.12",
+          "zimmerframe": "zimmerframe@1.1.2"
+        }
+      },
+      "svelte@5.0.4_acorn@8.13.0": {
+        "integrity": "sha512-W22OPqEIhHGqYjW2XnESTZoHvJdNCEr5oGDE8WoRKB37dQCywM5Bv7I2uN4A0FWhBnV7NxWK4MZwPKW2AVm19Q==",
         "dependencies": {
           "@ampproject/remapping": "@ampproject/remapping@2.3.0",
           "@jridgewell/sourcemap-codec": "@jridgewell/sourcemap-codec@1.5.0",

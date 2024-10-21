@@ -190,6 +190,7 @@ export default {
         unexpectedError: "An unexpected error occurred. Please try again."
       },
       org: {
+        testing: "Hello {name}",
         noCurrentOrg: "No current organization selected",
         createTitle: "Create New Organization",
         nameLabel: "Organization Name",
