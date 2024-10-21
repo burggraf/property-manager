@@ -10,6 +10,9 @@
 	let { data } = $props()
 	let orgDetail = $state(data.org?.data || { title: '' })
 	let user_role = $state(data.role || '')
+	if (!user_role) {
+		console.error('user_role is not set')
+	}
 	let isNewOrg = $derived($page.params.id === 'new')
 	let isLoading = $state(false)
 	let invites = $state<Invite[]>([])
@@ -226,7 +229,7 @@
 					<label for="role" class="block text-sm font-medium text-foreground">
 						{$t('orgDetail.role')}
 					</label>
-					<div>x{user_role}x</div>
+					<div>{user_role}</div>
 				</div>
 
 				{#if !isNewOrg}
