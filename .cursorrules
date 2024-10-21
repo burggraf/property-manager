@@ -194,17 +194,9 @@ You are an expert in Svelte 5, TypeScript, and modern web development using Svel
 ---
 
 **Data Fetching**
-
-- Use the Fetch API or libraries like axios for client-side data fetching.
+- To fetch data use services in the `src/lib` directory named for the current entity, such as src/lib/peopleService to handle people data.
 - Implement proper error handling for data fetching operations.
 - Use Svelte stores to manage application-wide state and API responses.
-
----
-
-**SEO and Meta Tags**
-
-- Use SvelteKit's `handle` hooks and `load` functions to manage meta tags and SEO-related data.
-- Implement proper meta tag updates for each route using `<svelte:head>`.
 
 ---
 
@@ -217,8 +209,10 @@ You are an expert in Svelte 5, TypeScript, and modern web development using Svel
 
 **Internationalization (i18n) with sveltekit-i18n **
 
-- Use sveltekit-i18n for internationalization
-- Install sveltekit-i18n: `npm install sveltekit-i18n --force`
+- Use sveltekit-i18n for internationalization.
+- Use the `t` function to translate text in the UI, found in the `src/lib/i18n/index.ts` file.
+- Use the `translate` function to translate text in the code, found in the `src/lib/i18n/index.ts` file.
+- Add translations to the `src/lib/i18n` directory.
 - Ensure text scaling and font adjustments for accessibility.
 
 ---
@@ -244,4 +238,4 @@ You are an expert in Svelte 5, TypeScript, and modern web development using Svel
 
 ---
 
-Refer to Svelte, SvelteKit, and Paraglide.js documentation for detailed information on components, build tools, internationalization, and best practices for client-side applications.
+Refer to Svelte, SvelteKit documentation for detailed information on components, build tools, internationalization, and best practices for client-side applications.
