@@ -3,7 +3,7 @@ import en from './en.ts';
 import es from './es.ts';
 
 // Define your translations
-const translations = { en, es };
+const translations: any = { en, es };
 
 // Function to get the initial locale from localStorage or default to 'en'
 function getInitialLocale(): string {
@@ -39,7 +39,7 @@ export const t = derived(
 
     if (typeof value === 'string' && params) {
       return Object.entries(params).reduce((acc, [k, v]) => {
-        return acc.replace(new RegExp(`{{${k}}}`, 'g'), v.toString());
+        return acc.replace(new RegExp(`{${k}}`, 'g'), v.toString());
       }, value);
     }
 
