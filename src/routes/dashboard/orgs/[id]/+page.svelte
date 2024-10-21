@@ -9,6 +9,7 @@
 	import { Button } from '$lib/components/ui/button'
 	let { data } = $props()
 	let orgDetail = $state(data.org?.data || { title: '' })
+	let user_role = $state(data.role || '')
 	let isNewOrg = $derived($page.params.id === 'new')
 	let isLoading = $state(false)
 	let invites = $state<Invite[]>([])
@@ -36,6 +37,7 @@
 		SelectTrigger,
 		SelectValue,
 	} from '$lib/components/ui/select'
+
 	async function handleSave() {
 		if (!orgDetail.title) {
 			showToast($t('orgDetail.titleMissing'), { type: 'error' })
@@ -219,6 +221,12 @@
 						placeholder={$t('org.titlePlaceholder')}
 						required
 					/>
+				</div>
+				<div class="w-full p-2 border rounded bg-background">
+					<label for="role" class="block text-sm font-medium text-foreground">
+						{$t('orgDetail.role')}
+					</label>
+					<div>x{user_role}x</div>
 				</div>
 
 				{#if !isNewOrg}
