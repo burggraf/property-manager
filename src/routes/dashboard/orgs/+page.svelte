@@ -96,7 +96,6 @@
 		{:else}
 			<p class="pt-8 text-center text-lg text-gray-500">{$t('common.notLoggedIn')}</p>
 		{/if}
-		TEST: {$t('org.testing', { name: 'John' })}
 	</div>
 </Content>
 
