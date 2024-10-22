@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import { writable } from 'svelte/store';
 import type { User } from '@supabase/supabase-js';
-import type { Contact } from '$lib/types/contact';
+import type { Contact } from '$lib/types/contact.ts';
 
 export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
 export const user = writable<User | null>(null);

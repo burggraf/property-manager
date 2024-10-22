@@ -6,6 +6,7 @@
         ],
         "strict": true
     },
+    "importMap": "import_map.json",
     "lint": {
         "files": {
             "include": [

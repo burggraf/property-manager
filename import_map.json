@@ -1,0 +1,6 @@
+{
+    "imports": {
+        "$lib/": "./src/lib/",
+        "$env/": "./src/env/"
+    }
+}
