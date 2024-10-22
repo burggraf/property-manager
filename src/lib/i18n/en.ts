@@ -219,6 +219,7 @@ export default {
         createNew: "Create New Organization",
         editOrg: "Edit Organization",
         title: "Organization Title",
+        role: "Your Role",
       },
       invites: {
         loadError: "Error loading invites",
@@ -234,7 +235,7 @@ export default {
         deleteError: "Error deleting invite",
         deleteSuccess: "Invite deleted successfully",
         roleRequired: "Role is required",
-        selectRole: "Select Role",
+        selectRole: "Select role",
         roleOwner: "Owner",
         roleMember: "Member",
         roleReadOnly: "Read-Only",
