@@ -9,10 +9,7 @@ export const load: PageLoad = async ({ params }) => {
     }
   }
   const { data, error } = await getOrgById(params.id)
-  console.log('params.id: ', params.id )
   const { data: roleData, error: roleError } = await getMyRoleInOrg(params.id)
-  console.log('roleData: ', roleData)
-  console.log('roleError: ', roleError)
   return {
     org: data as Org,
     role: roleData,
