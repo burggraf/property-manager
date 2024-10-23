@@ -44,7 +44,7 @@
 </script>
 
 <SidebarHeader />
-<SidebarAuth {user} bind:loginModalOpen />
+<SidebarAuth bind:loginModalOpen />
 <SidebarMenu {sidebarNavigation} {closeSheet} />
 <SidebarFooter />
 
