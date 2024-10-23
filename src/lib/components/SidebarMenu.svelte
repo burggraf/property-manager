@@ -47,7 +47,7 @@
 									{href}
 									class="block py-2 px-6 text-sm hover:bg-muted/50 no-underline"
 									class:bg-muted={$page.url.pathname === href}
-									on:click={handleNavClick}
+									onclick={handleNavClick}
 								>
 									{label}
 								</a>
