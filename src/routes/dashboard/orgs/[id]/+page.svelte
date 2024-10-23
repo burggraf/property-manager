@@ -183,6 +183,7 @@
 			}
 		}
 	}
+	let isOwner = $derived(user_role === 'Owner')
 </script>
 
 <Navbar>
@@ -196,9 +197,12 @@
 		</button>
 		<button
 			onclick={handleSave}
-			class="p-2 rounded-full hover:bg-muted transition-colors duration-200"
+			class={cn(
+				'p-2 rounded-full transition-colors duration-200',
+				isOwner ? 'hover:bg-muted' : 'opacity-50 cursor-not-allowed'
+			)}
 			aria-label={$t('common.save')}
-			disabled={isLoading}
+			disabled={isLoading || !isOwner}
 		>
 			<Check class="w-6 h-6" />
 		</button>
@@ -221,6 +225,8 @@
 						bind:value={orgDetail.title}
 						placeholder={$t('org.titlePlaceholder')}
 						required
+						disabled={!isOwner}
+						class={cn(!isOwner && 'opacity-50 cursor-not-allowed')}
 					/>
 				</div>
 				<div class="w-full p-2 border rounded bg-background">
