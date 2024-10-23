@@ -20,7 +20,7 @@
 	let email = $state('')
 	let bio = $state('')
 	let loading = false
-	let bioTextarea: HTMLTextAreaElement
+	let bioTextarea = $state('')
 
 	$effect(() => {
 		// This will run whenever user changes
