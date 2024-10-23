@@ -44,6 +44,20 @@
 
 	let selectedItems = $state<Set<string>>(new Set())
 
+	let allChecked = $state(false)
+
+	function toggleAllCheckboxes() {
+		allChecked = !allChecked
+		if (allChecked) {
+			selectedItems = new Set(sortedData.map((item) => item.id))
+		} else {
+			selectedItems = new Set() // Create a new empty set
+		}
+		if (onSelectionChange) {
+			onSelectionChange(selectedItems)
+		}
+	}
+
 	function toggleItemSelection(itemId: string) {
 		if (selectedItems.has(itemId)) {
 			selectedItems.delete(itemId)
@@ -99,6 +113,11 @@
 		e.stopPropagation() // Prevent the event from bubbling up to the row
 		toggleItemSelection(itemId)
 	}
+
+	$effect(() => {
+		// Update allChecked when selectedItems changes
+		allChecked = selectedItems.size === sortedData.length && sortedData.length > 0
+	})
 </script>
 
 <div class="generic-list-container">
@@ -107,7 +126,9 @@
 			<TableHeader>
 				<TableRow>
 					{#if showCheckboxes}
-						<TableHead class="w-[50px]"></TableHead>
+						<TableHead class="w-[50px]">
+							<Checkbox checked={allChecked} onCheckedChange={toggleAllCheckboxes} />
+						</TableHead>
 					{/if}
 					{#each headers as header}
 						<TableHead>
