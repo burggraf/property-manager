@@ -9,7 +9,7 @@
 	} from '$lib/components/ui/dialog'
 	import { Bell } from 'lucide-svelte'
 	import { t } from '$lib/i18n'
-	import { getMyInvites, deleteInvite, acceptInvite } from '$lib/inviteService'
+	import { getMyInvites, deleteInvite, acceptInvite } from '$lib/inviteService.svelte'
 	import type { Invite } from '$lib/types/invite'
 	import { showToast } from '$lib/utils/toast'
 

@@ -1,4 +1,4 @@
-import { derived, writable, get } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import en from './en.ts';
 import es from './es.ts';
 
@@ -19,7 +19,7 @@ function getInitialLocale(): string {
 // Create a writable store for the active locale
 export const locale = writable(getInitialLocale());
 
-// Subscribe to changes and update localStorage
+// Effect to update localStorage when locale changes
 locale.subscribe((value) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('locale', value);
@@ -27,9 +27,8 @@ locale.subscribe((value) => {
 });
 
 // Create a derived store for the active translation
-export const t = derived(
-  locale,
-  ($locale) => (key: string, params?: Record<string, any>) => {
+export const t = derived(locale, ($locale) => 
+  (key: string, params?: Record<string, any>) => {
     const keys = key.split('.');
     let value = translations[$locale];
     for (const k of keys) {
@@ -58,4 +57,8 @@ export function setLocale(newLocale: string) {
 
 export function translate(key: string, params?: Record<string, any>): string {
   return get(t)(key, params);
+}
+
+export function getLocale(): string {
+  return get(locale);
 }

@@ -1,11 +1,6 @@
-import { getItemById, deleteItem, saveItem, getList, getSession } from './backend.ts';
-import { user, supabase } from './backend.ts';
+import { getItemById, deleteItem, saveItem, getList, getSession } from './backend.svelte.ts';
+import { supabase } from './backend.svelte.ts';
 import type { Org } from '$lib/types/org.ts';   
-
-let $user: any = null;
-user.subscribe((u) => {
-    $user = u;
-});
 
 export const getAllOrgs = async () => {
     return fetchOrgs('title', 'asc');

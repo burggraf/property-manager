@@ -3,11 +3,19 @@
 	import { Input } from '$lib/components/ui/input'
 	import { Label } from '$lib/components/ui/label'
 	import * as Dialog from '$lib/components/ui/dialog'
-	import { user, getSession, signInWithPassword, signUp, signInWithOAuth, resetPasswordForEmail } from '$lib/backend'
+	import {
+		getUser,
+		setUser,
+		getSession,
+		signInWithPassword,
+		signUp,
+		signInWithOAuth,
+		resetPasswordForEmail,
+	} from '$lib/backend.svelte'
 	import { browser } from '$app/environment'
 	import { t } from '$lib/i18n'
 	import { showToast } from '$lib/utils/toast'
-
+	const user = $derived(getUser())
 	let { open = $bindable(false) } = $props()
 
 	let email = $state('')
@@ -33,7 +41,7 @@
 				} else {
 					// The user store should be automatically updated by Supabase
 					// We'll force a re-check of the session to be sure
-					await refreshSession();
+					await refreshSession()
 					closeModal()
 				}
 			} catch (e) {
@@ -52,7 +60,7 @@
 				} else {
 					// The user store should be automatically updated by Supabase
 					// We'll force a re-check of the session to be sure
-					await refreshSession();
+					await refreshSession()
 					setTimeout(() => {
 						showToast($t('loginModal.registerSuccess'), { type: 'success' })
 					}, 500)
@@ -134,11 +142,12 @@
 	}
 
 	async function refreshSession() {
-		const { data, error } = await getSession();
+		const { data, error } = await getSession()
 		if (data.session) {
-			user.set(data.session.user);
+			setUser(data.session.user)
 		} else if (error) {
-			console.error('Error refreshing session:', error);
+			setUser(null)
+			console.error('Error refreshing session:', error)
 		}
 	}
 </script>
@@ -154,25 +163,25 @@
 					{isLogin ? $t('loginModal.loginDescription') : $t('loginModal.registerDescription')}
 				</Dialog.Description>
 			</Dialog.Header>
-			<form onsubmit={(e) => { e.preventDefault(); handleLogin(); }} class="space-y-4 py-4">
+			<form
+				onsubmit={(e) => {
+					e.preventDefault()
+					handleLogin()
+				}}
+				class="space-y-4 py-4"
+			>
 				<div class="space-y-2">
 					<Label for="email">{$t('loginModal.emailLabel')}</Label>
-					<Input 
-						id="email" 
-						type="email" 
-						bind:value={email} 
-						required 
-						autocomplete="username"
-					/>
+					<Input id="email" type="email" bind:value={email} required autocomplete="username" />
 				</div>
 				<div class="space-y-2">
 					<Label for="password">{$t('loginModal.passwordLabel')}</Label>
-					<Input 
-						id="password" 
-						type="password" 
-						bind:value={password} 
-						required 
-						autocomplete={isLogin ? "current-password" : "new-password"}
+					<Input
+						id="password"
+						type="password"
+						bind:value={password}
+						required
+						autocomplete={isLogin ? 'current-password' : 'new-password'}
 					/>
 				</div>
 				{#if error}

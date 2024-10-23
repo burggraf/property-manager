@@ -1,63 +1,61 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { user, getSession } from '$lib/backend';
+	import { getUser, setUser, getSession } from '$lib/backend.svelte'
 	import { Button } from '$lib/components/ui/button/index.js'
 	import { Input } from '$lib/components/ui/input/index.js'
 	import { Label } from '$lib/components/ui/label/index.js'
 	import * as Card from '$lib/components/ui/card/index.js'
 	import { t } from '$lib/i18n'
-	import { updateUser } from '$lib/backend';
+	import { updateUser } from '$lib/backend.svelte'
 	import { showToast } from '$lib/utils/toast'
 	import { Textarea } from '$lib/components/ui/textarea/index.js'
-    import Navbar from '$lib/components/Navbar.svelte';
-    import Content from '$lib/components/Content.svelte';
-    import StatusBar from '$lib/components/StatusBar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte'
+	import Content from '$lib/components/Content.svelte'
+	import StatusBar from '$lib/components/StatusBar.svelte'
 	import { Check, X, Trash2 } from 'lucide-svelte'
-	import { cn } from '$lib/utils';
-
+	import { cn } from '$lib/utils'
+	const user = $derived(getUser())
 	let firstName = $state('')
 	let lastName = $state('')
-	let email = $state('')	
+	let email = $state('')
 	let bio = $state('')
 	let loading = false
-	let bioTextarea: HTMLTextAreaElement;
+	let bioTextarea: HTMLTextAreaElement
 
 	$effect(() => {
-		// console.log('$user', $user)
-
-		// This will run whenever $user changes
-		if ($user) {
-			firstName = $user.user_metadata?.first_name || ''
-			lastName = $user.user_metadata?.last_name || ''
-			email = $user.email || ''
-			bio = $user.user_metadata?.bio || ''
+		// This will run whenever user changes
+		if (user) {
+			firstName = user.user_metadata?.first_name || ''
+			lastName = user.user_metadata?.last_name || ''
+			email = user.email || ''
+			bio = user.user_metadata?.bio || ''
 			// Add a small delay to ensure the DOM has updated
-			setTimeout(autoGrow, 0);
+			setTimeout(autoGrow, 0)
 		} else {
 			firstName = ''
 			lastName = ''
 			email = ''
 			bio = ''
 		}
-	});
+	})
 
 	function autoGrow() {
 		if (bioTextarea) {
-			bioTextarea.style.height = 'auto';
-			bioTextarea.style.height = bioTextarea.scrollHeight + 'px';
+			bioTextarea.style.height = 'auto'
+			bioTextarea.style.height = bioTextarea.scrollHeight + 'px'
 		}
 	}
 
 	$effect(() => {
-		autoGrow();
-	});
+		autoGrow()
+	})
 
 	// Use onMount to ensure the DOM is ready
 	onMount(() => {
 		if (bioTextarea) {
-			autoGrow();
+			autoGrow()
 		}
-	});
+	})
 
 	/*
 	onMount(() => {
@@ -82,7 +80,7 @@
 			showToast('Failed to update profile', { type: 'error' })
 			console.error('Error updating profile:', error)
 		} else {
-			user.set(data.user || data)
+			setUser(data.user || data)
 			showToast('Profile updated successfully', { type: 'success' })
 		}
 		loading = false
@@ -103,14 +101,14 @@
 </Navbar>
 <Content>
 	<div class="pt-4 pb-4">
-		{#if $user}
-		<Card.Root class="max-w-md mx-auto mt-8">
-			<Card.Header>
-				<Card.Title>{$t('account.title')}</Card.Title>
-				<Card.Description>{$t('account.personalInfo')}</Card.Description>
-			</Card.Header>
-			<Card.Content>
-<!--				<form on:submit|preventDefault={updateProfile} class="space-y-4">-->
+		{#if user}
+			<Card.Root class="max-w-md mx-auto mt-8">
+				<Card.Header>
+					<Card.Title>{$t('account.title')}</Card.Title>
+					<Card.Description>{$t('account.personalInfo')}</Card.Description>
+				</Card.Header>
+				<Card.Content>
+					<!--				<form on:submit|preventDefault={updateProfile} class="space-y-4">-->
 					<div>
 						<Label for="email">{$t('account.email')}</Label>
 						<Input id="email" type="email" value={email} disabled />
@@ -124,7 +122,9 @@
 						<Input id="lastName" type="text" bind:value={lastName} />
 					</div>
 					<div class="w-full p-2 border rounded bg-background mt-4">
-						<label for="bio" class="block text-sm font-medium text-foreground">{$t('account.bio')}</label>
+						<label for="bio" class="block text-sm font-medium text-foreground"
+							>{$t('account.bio')}</label
+						>
 						<textarea
 							id="bio"
 							bind:value={bio}

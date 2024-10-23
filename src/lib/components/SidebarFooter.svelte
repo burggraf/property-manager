@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button } from "$lib/components/ui/button/index.js";
-	import { t } from '$lib/i18n';
+	import { Button } from '$lib/components/ui/button/index.js'
+	import { t } from '$lib/i18n'
 </script>
 
 <div class="mt-auto px-2 py-4 border-t">

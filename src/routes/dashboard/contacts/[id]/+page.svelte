@@ -1,21 +1,23 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { t } from '$lib/i18n'
+	import { t } from '$lib/i18n/index.ts'
 	import { cn } from '$lib/utils'
 	import { Check, X, Trash2 } from 'lucide-svelte'
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
-	import { saveContact, deleteContact } from '$lib/contactService'
+	import { saveContact, deleteContact } from '$lib/contactService.svelte.js'
 	let { data } = $props()
 	let contactDetail = $state(data.contact || { firstname: '', lastname: '', email: '', notes: '' })
 	let notesTextarea: HTMLTextAreaElement
 	let isNewContact = $derived($page.url.pathname.split('/').pop() === 'new')
-    import Navbar from '$lib/components/Navbar.svelte';
-    import Content from '$lib/components/Content.svelte';
-    import StatusBar from '$lib/components/StatusBar.svelte';
-	import { user, getSession, currentOrgId } from '$lib/backend';
+	import Navbar from '$lib/components/Navbar.svelte'
+	import Content from '$lib/components/Content.svelte'
+	import StatusBar from '$lib/components/StatusBar.svelte'
+	import { getUser, getSession, getCurrentOrgId } from '$lib/backend.svelte'
 
+	const user = $derived(getUser())
+	const currentOrgId = getCurrentOrgId()
 	function isValidEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 		return emailRegex.test(email)
@@ -75,6 +77,7 @@
 		autoGrow()
 	})
 </script>
+
 <Navbar>
 	<div slot="top-right" class="flex space-x-2">
 		<button

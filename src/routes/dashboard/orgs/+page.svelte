@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { supabase, updateUser, currentOrgId, user } from '$lib/backend'
-	import { t } from '$lib/i18n'
+	import {
+		supabase,
+		updateUser,
+		getCurrentOrgId,
+		setCurrentOrgId,
+		getUser,
+	} from '$lib/backend.svelte'
+	import { t } from '$lib/i18n/index'
 	import { showToast } from '$lib/utils/toast'
 	import Navbar from '$lib/components/Navbar.svelte'
 	import Content from '$lib/components/Content.svelte'
@@ -11,23 +17,12 @@
 	import type { PageData } from './$types'
 	import { onMount } from 'svelte'
 	import { goto } from '$app/navigation'
-
+	const user = $derived(getUser())
 	let { data } = $props<{ data: PageData }>()
 
 	let orgs = $state(data.orgs)
-	let currentOrg = $state(null)
-
-	onMount(() => {
-		const unsubscribe = currentOrgId.subscribe((id) => {
-			if (id) {
-				currentOrg = orgs.find((org) => org.id === id) || null
-			} else {
-				currentOrg = null
-			}
-		})
-
-		return unsubscribe
-	})
+	const currentOrgId = $derived(getCurrentOrgId())
+	const currentOrg = $derived(orgs.find((org) => org.id === currentOrgId))
 
 	async function handleOrgClick(org: Org) {
 		try {
@@ -47,7 +42,7 @@
 
 			if (error) throw error
 
-			currentOrgId.set(org.id)
+			setCurrentOrgId(org.id)
 
 			showToast($t('org.currentOrgUpdated'), { type: 'success' })
 		} catch (error) {
@@ -79,7 +74,7 @@
 
 <Content>
 	<div class="container mx-auto p-4">
-		{#if $user}
+		{#if user}
 			<div class="space-y-6">
 				<!-- Current Org display -->
 				<div class="bg-secondary p-4 rounded-lg mb-4">

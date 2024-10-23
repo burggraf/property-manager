@@ -1,28 +1,63 @@
 // SUPABASE BACKEND
-import { createClient } from '@supabase/supabase-js'
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
-import { writable } from 'svelte/store';
+// import { writable } from 'svelte/store';
 import type { User } from '@supabase/supabase-js';
-import type { Contact } from '$lib/types/contact.ts';
+// import type { Contact } from '$lib/types/contact.ts';
 
-export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY)
-export const user = writable<User | null>(null);
+import { supabase } from '$lib/supabase.ts'
+export { supabase };  // Add this line to export the supabase object
+import { locale } from '$lib/i18n/index.ts';
+let user = $state<User | null>(null)
+// Add this getter function
+export function getUser() {
+  return user;
+}
+export const setUser = (newUser: User | null) => {
+  user = newUser;
+}
+export function initializeUser() {
+  $effect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      user = session?.user ?? null
+    })
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_, session) => {
+        user = session?.user ?? null
+
+        const userLocale = user?.user_metadata?.i18n
+				if (userLocale) {
+					locale.set(userLocale)
+					localStorage.setItem('locale', userLocale)
+				}
+				// Fetch currentOrgId from user metadata and set it
+				const newCurrentOrgId = user?.user_metadata?.currentOrgId
+				if (newCurrentOrgId) {
+					currentOrgId = newCurrentOrgId
+				}
+      }
+    )
+
+    return () => {
+      authListener.subscription.unsubscribe()
+    }
+  })
+}
 // Add this new store for the currently selected orgid
-export const currentOrgId = writable<string | null>(null);
-
-// You might want to add a function to update the currentOrgId
-export const setCurrentOrgId = (orgId: string | null) => {
-  currentOrgId.set(orgId);
-};
-
-// Optionally, you can add a function to get the current orgId from the store
-export const getCurrentOrgId = (): Promise<string | null> => {
-  return new Promise((resolve) => {
-    currentOrgId.subscribe(value => {
-      resolve(value);
-    })();
-  });
-};
+let currentOrgId = $state<string | null>(null)
+export function getCurrentOrgId() {
+  return currentOrgId;
+}
+export const setCurrentOrgId = async (newOrgId: string | null) => {
+  currentOrgId = newOrgId;
+  const { data: updateUserData, error: updateUserError } = await updateUser({
+    data: { currentOrgId: newOrgId },
+  })
+  if (updateUserError) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 
 // **************************

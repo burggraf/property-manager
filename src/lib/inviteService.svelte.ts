@@ -1,13 +1,7 @@
-import { getItemById, deleteItem, saveItem, getList } from './backend.ts';
-import { user } from './backend.ts';
+import { getItemById, deleteItem, saveItem, getList } from './backend.svelte.ts';
 import type { Invite } from '$lib/types/invite.ts';
-import { supabase } from './backend.ts';
-
-let $user: any = null;
-user.subscribe((u) => {
-    $user = u;
-});
-
+import { supabase, getUser } from './backend.svelte.ts';
+const user = $derived(getUser());
 export const getInviteById = async (id: string) => {
     try {
         const data = await getItemById('orgs_invites', id);
@@ -59,7 +53,7 @@ export const deleteInvite = async (id: string) => {
 export const getMyInvites = async () => {
     const { data, error } = 
         await getList('orgs_invites', 1, 50, 'created_at', 'desc', 
-            'email', $user?.email);
+            'email', user?.email);
     return { data, error };
 }
 

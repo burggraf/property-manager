@@ -3,11 +3,12 @@
 	import { Button } from '$lib/components/ui/button/index.js'
 	import { t } from '$lib/i18n'
 
-	import Navbar from '$lib/components/Navbar.svelte';
-	import Content from '$lib/components/Content.svelte';
-	import StatusBar from '$lib/components/StatusBar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte'
+	import Content from '$lib/components/Content.svelte'
+	import StatusBar from '$lib/components/StatusBar.svelte'
 	// Function to handle language change
 </script>
+
 <Navbar>
 	<div slot="title">Dashboard</div>
 </Navbar>

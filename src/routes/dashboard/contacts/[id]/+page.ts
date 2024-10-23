@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 
 import type { PageLoad } from "./$types";
-import { getContactById } from "$lib/contactService";
+import { getContactById } from "$lib/contactService.svelte";
 
 export const load: PageLoad = async ({ params }) => {
   if (params.id === 'new') {

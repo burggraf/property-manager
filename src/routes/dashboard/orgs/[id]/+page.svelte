@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { t } from '$lib/i18n'
+	import { t } from '$lib/i18n/index.ts'
 	import { cn } from '$lib/utils'
 	import { Check, X, Trash2, Mail, Plus, UserPlus } from 'lucide-svelte'
 	import { page } from '$app/stores'
 	import { showToast } from '$lib/utils/toast'
-	import { supabase, setCurrentOrgId, updateUser, user } from '$lib/backend'
+	import { supabase, updateUser, getUser, setCurrentOrgId } from '$lib/backend.svelte'
 	import { Button } from '$lib/components/ui/button'
+	const user = $derived(getUser())
 	let { data } = $props()
 	let orgDetail = $state(data.org?.data || { title: '' })
 	let user_role = $state(data.role || '')
@@ -32,7 +33,7 @@
 		updateInvite,
 		deleteInvite,
 		createInvite,
-	} from '$lib/inviteService'
+	} from '$lib/inviteService.svelte.js'
 	import {
 		Select,
 		SelectContent,
@@ -57,9 +58,6 @@
 				if (error) throw error
 				// Set the newly created org as the current org
 				setCurrentOrgId(newOrg.org.id)
-				const { data: updateUserData, error: updateUserError } = await updateUser({
-					data: { currentOrgId: newOrg.org.id },
-				})
 
 				showToast($t('org.createSuccess'), { type: 'success' })
 				goto('/dashboard/orgs') // Navigate back to org list after successful creation
@@ -149,7 +147,7 @@
 
 		const { data, error } = await createInvite({
 			orgid: orgDetail.id,
-			owner: $user?.id,
+			owner: user?.id,
 			email: newInviteEmail,
 			user_role: newInviteRole,
 			metadata: {

@@ -1,10 +1,8 @@
 import type { Contact } from '$lib/types/contact';
 import type { PageLoad } from './$types';
-import { fetchOrgs } from '$lib/orgService';
+import { fetchOrgs } from '$lib/orgService.svelte';
 
 import { supabase } from '$lib/supabase';
-import { user, getSession } from '$lib/backend';
-let $user: any = null;
 export const load: PageLoad = async () => {
 
   // const { data, error } = await getAllOrgs();

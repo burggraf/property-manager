@@ -1,5 +1,5 @@
-import { getItemById, deleteItem, saveItem, getList, currentOrgId } from './backend';
-import type { Contact } from '$lib/types/contact';
+import { getItemById, deleteItem, saveItem, getList, getCurrentOrgId } from '$lib/backend.svelte.ts';
+import type { Contact } from '$lib/types/contact.ts';
 import { faker } from '@faker-js/faker';
 
 export const getContactById = async (id: string) => {
@@ -67,10 +67,3 @@ export async function generateRandomContacts(count: number) {
     return arr;
 }
 
-async function getCurrentOrgId(): Promise<string> {
-    return new Promise((resolve) => {
-        currentOrgId.subscribe(value => {
-            resolve(value || '');
-        })();
-    });
-}

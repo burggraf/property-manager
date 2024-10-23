@@ -10,17 +10,18 @@
 	import Navbar from '$lib/components/Navbar.svelte'
 	import Content from '$lib/components/Content.svelte'
 	import StatusBar from '$lib/components/StatusBar.svelte'
-	import { user, getSession, currentOrgId } from '$lib/backend'
+	import { getUser, getSession, getCurrentOrgId } from '$lib/backend.svelte'
 	import { onMount } from 'svelte'
-	import { generateRandomContacts } from '$lib/contactService'
+	import { generateRandomContacts } from '$lib/contactService.svelte'
 	import type { Contact } from '$lib/types/contact'
 	import type { Action } from '$lib/types/action'
-	import { deleteContact } from '$lib/contactService'
+	import { deleteContact } from '$lib/contactService.svelte'
 	import { showToast } from '$lib/utils/toast'
 
+	const user = $derived(getUser())
 	let { data } = $props<{ data: PageData }>()
 	let selectedContacts: string[] = $state([])
-
+	const currentOrgId = $derived(getCurrentOrgId())
 	function handleNewContact() {
 		goto('/dashboard/contacts/new')
 	}
@@ -104,7 +105,7 @@
 	</div>
 </Navbar>
 <Content>
-	{#if $currentOrgId}
+	{#if currentOrgId}
 		{#if data.error}
 			<p class="error pt-6">{data.error}</p>
 		{:else if data.contacts.length === 0}

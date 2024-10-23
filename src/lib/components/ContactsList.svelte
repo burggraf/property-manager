@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import type { Contact } from '../types/contact'
-	import { fetchContacts } from '$lib/contactService'
-	import { user } from '$lib/backend'
+	import { fetchContacts } from '$lib/contactService.svelte'
+	import { getUser } from '$lib/backend.svelte'
+	const user = $derived(getUser())
 	import GenericList from './GenericList.svelte'
 	import { createEventDispatcher } from 'svelte'
 
@@ -11,7 +12,7 @@
 	let currentSortDirection = $state<'asc' | 'desc'>('asc')
 
 	$effect(() => {
-		if ($user) {
+		if (user) {
 			loadContacts(currentSortColumn, currentSortDirection)
 		} else {
 			contacts = []

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '$lib/i18n';
+	import { t } from '$lib/i18n'
 </script>
 
 <div class="safe-area-top px-4 pt-2 pb-3">
